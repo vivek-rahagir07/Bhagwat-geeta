@@ -1,0 +1,2357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gita Guidance | Eternal Wisdom</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Noto+Sans+Devanagari:wght@400;600&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ea580c;
+            /* Orange-600 */
+            --bg-cream: #fdfbf7;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            font-family: 'Inter', sans-serif;
+            color: #111827;
+            min-height: 100vh;
+        }
+
+        .hero-bg {
+            background-image: url('assets/hero_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .hero-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(253, 251, 247, 0.85), rgba(253, 251, 247, 0.95));
+            z-index: -1;
+        }
+
+        /* Enhanced React Animations */
+        .floating-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.6;
+            animation: float-up 15s infinite ease-in-out;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.3;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(var(--drift)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .floating-om {
+            position: absolute;
+            font-size: 3rem;
+            color: rgba(234, 88, 12, 0.1);
+            font-weight: bold;
+            pointer-events: none;
+            animation: drift 20s infinite ease-in-out;
+        }
+
+        @keyframes drift {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, -30px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-15px, -60px) rotate(-3deg);
+            }
+
+            75% {
+                transform: translate(25px, -40px) rotate(4deg);
+            }
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: pulse-orb 8s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-orb {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+        }
+
+        /* Giant Floating Om */
+        .giant-om {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(15rem, 30vw, 35rem);
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            color: rgba(234, 88, 12, 0.08);
+            font-weight: 700;
+            pointer-events: none;
+            z-index: -1;
+            animation: giant-om-float 25s infinite ease-in-out;
+            text-shadow: 0 0 40px rgba(234, 88, 12, 0.1);
+        }
+
+        @keyframes giant-om-float {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+
+            25% {
+                transform: translate(-48%, -52%) rotate(3deg) scale(1.05);
+            }
+
+            50% {
+                transform: translate(-52%, -50%) rotate(-2deg) scale(0.98);
+            }
+
+            75% {
+                transform: translate(-50%, -48%) rotate(4deg) scale(1.02);
+            }
+        }
+
+        .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+
+        .font-hindi {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
+
+        /* Card Hover Effect */
+        .shloka-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .shloka-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(234, 88, 12, 0.15);
+            border-color: #fdba74;
+        }
+
+        /* Mood Card */
+        .mood-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+            isolation: isolate;
+        }
+
+        .mood-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            z-index: 1;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .mood-card:hover::before {
+            opacity: 0.6;
+        }
+
+        .mood-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 40px -12px rgba(234, 88, 12, 0.3);
+        }
+
+        .mood-card img {
+            transition: transform 0.7s ease;
+        }
+
+        .mood-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Om Symbol Background */
+        .om-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: min(40rem, 80vw);
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: -2;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            color: var(--primary);
+            transition: opacity 0.6s ease;
+        }
+
+        /* Floating Particles Layer */
+        #particles {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(234, 88, 12, 0.6) 0%, rgba(234, 88, 12, 0) 70%);
+            opacity: 0.4;
+            transform: translate3d(0, 0, 0);
+        }
+
+        /* Animation Modes: Calm / Energetic / Minimal */
+
+        /* Calm (default) */
+        body[data-animation="calm"] .particle {
+            animation-name: floatCalm;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+
+        body[data-animation="calm"] .om-bg {
+            opacity: 0.04;
+            animation: omDrift 40s ease-in-out infinite alternate;
+        }
+
+        /* Energetic */
+        body[data-animation="energetic"] .particle {
+            opacity: 0.6;
+            animation-name: floatEnergetic;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+            filter: drop-shadow(0 0 10px rgba(234, 88, 12, 0.7));
+        }
+
+        body[data-animation="energetic"] .om-bg {
+            opacity: 0.06;
+            animation: omDrift 22s ease-in-out infinite alternate;
+        }
+
+        /* Minimal */
+        body[data-animation="minimal"] .particle {
+            opacity: 0.18;
+            animation-name: floatMinimal;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            filter: none;
+        }
+
+        body[data-animation="minimal"] .om-bg {
+            opacity: 0.02;
+            animation: none;
+        }
+
+        @keyframes floatCalm {
+            0% {
+                transform: translate3d(0, 20px, 0) scale(0.9);
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: translate3d(-20px, -120px, 0) scale(1);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translate3d(10px, -260px, 0) scale(1.05);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatEnergetic {
+            0% {
+                transform: translate3d(0, 40px, 0) scale(0.8);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translate3d(40px, -200px, 0) scale(1.1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate3d(-30px, -360px, 0) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatMinimal {
+            0% {
+                transform: translate3d(0, 10px, 0);
+                opacity: 0;
+            }
+
+            30% {
+                opacity: 0.16;
+            }
+
+            70% {
+                transform: translate3d(0, -80px, 0);
+                opacity: 0.18;
+            }
+
+            100% {
+                transform: translate3d(0, -140px, 0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes omDrift {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(calc(-50% + 6px), calc(-50% + 10px)) scale(1.02);
+            }
+
+            100% {
+                transform: translate(calc(-50% - 6px), calc(-50% - 10px)) scale(1.01);
+            }
+        }
+
+        /* Fade In Animation (existing) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #ea580c, #c2410c);
+        }
+
+        /* Helper for translucent sticky background */
+        .bg-cream {
+            background-color: rgba(253, 251, 247, 0.95);
+        }
+    </style>
+</head>
+
+<body class="text-gray-800 min-h-screen flex flex-col hero-bg" data-animation="calm">
+
+    <!-- Decorative Om Background -->
+    <div class="om-bg">ॐ</div>
+
+    <!-- Hero Overlay -->
+    <div class="hero-overlay"></div>
+
+    <!-- React Animated Background -->
+    <div id="react-background"></div>
+
+    <!-- Floating Particles Layer (Legacy fallback) -->
+    <div id="particles"></div>
+
+    <!-- Navigation -->
+    <nav
+        class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-orange-100 shadow-sm transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2 cursor-pointer group" onclick="showHome()">
+                    <div
+                        class="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center text-white font-bold shadow-md group-hover:scale-110 transition-transform">
+                        ॐ</div>
+                    <span class="font-serif text-xl font-bold text-gray-900 tracking-tight">Gita<span
+                            class="text-orange-600">Guidance</span></span>
+                </div>
+
+                <div class="flex items-center gap-3">
+
+                    <!-- Animation Style Selector -->
+                    <select id="animationSelect" onchange="changeAnimation(this.value)"
+                        class="hidden sm:block text-xs md:text-sm px-3 py-1.5 rounded-full border border-orange-100 bg-orange-50 text-orange-800 hover:border-orange-300 focus:outline-none focus:ring-1 focus:ring-orange-500/60 shadow-sm">
+                        <option value="calm">Calm</option>
+                        <option value="energetic">Energetic</option>
+                        <option value="minimal">Minimal</option>
+                    </select>
+
+                    <!-- Search Trigger (Mobile) -->
+                    <button onclick="focusSearch()" class="md:hidden p-2 text-gray-500 hover:text-orange-600">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                    </button>
+
+                    <!-- Chapters Link (Desktop) -->
+                    <button onclick="showChapters()"
+                        class="hidden md:flex items-center gap-2 text-gray-600 hover:text-orange-600 font-medium transition-colors px-3">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                        <span>Chapters</span>
+                    </button>
+
+                    <!-- Favorites Link (Desktop) -->
+                    <button onclick="showFavorites()"
+                        class="hidden md:flex items-center gap-2 text-gray-600 hover:text-orange-600 font-medium transition-colors px-3">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
+                        <span>Favorites</span>
+                    </button>
+
+                    <!-- Language Toggle -->
+                    <button id="langToggle" onclick="toggleLanguage()"
+                        class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-200 bg-orange-50 text-orange-800 hover:bg-orange-100 transition-colors text-sm font-medium shadow-sm">
+                        <i data-lucide="languages" class="w-4 h-4"></i>
+                        <span id="langText">HINDI</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
+
+        <!-- Hero Section -->
+        <div id="heroSection" class="text-center py-10 md:py-16 animate-fade-in max-w-4xl mx-auto">
+            <div
+                class="inline-block px-4 py-1.5 bg-orange-100 text-orange-700 rounded-full text-xs font-bold tracking-widest mb-6 uppercase shadow-sm">
+                Srimad Bhagavad Gita
+            </div>
+
+            <h1 class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-6 leading-tight">
+                <span id="heroTitle" class="text-gradient">Find Clarity in Chaos</span>
+            </h1>
+
+            <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed" id="heroSubtitle">
+                Ancient wisdom for modern problems. Select how you are feeling to receive guidance.
+            </p>
+
+            <!-- Daily Wisdom Section -->
+            <div id="dailyWisdomContainer" class="mb-12 animate-fade-in hidden">
+                <div
+                    class="glass-panel rounded-2xl p-6 md:p-8 max-w-2xl mx-auto border-l-4 border-orange-500 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <i data-lucide="sun" class="w-16 h-16 text-orange-600"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="text-xs font-bold tracking-widest text-orange-600 uppercase mb-2 block">Daily
+                            Wisdom • <span id="currentDate"></span></span>
+                        <h3 class="text-xl md:text-2xl font-serif font-bold text-gray-900 mb-3" id="dailySanskrit"></h3>
+                        <p class="text-gray-700 italic mb-4" id="dailyTranslation"></p>
+                        <div
+                            class="flex items-center gap-2 text-sm font-medium text-orange-700 bg-orange-50/50 inline-flex px-3 py-1 rounded-lg">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            <span id="dailyTakeaway"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative max-w-lg mx-auto mb-12 group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="search"
+                        class="w-5 h-5 text-gray-400 group-focus-within:text-orange-500 transition-colors"></i>
+                </div>
+                <input type="text" id="searchInput"
+                    class="block w-full pl-11 pr-4 py-4 bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 shadow-sm transition-all text-base"
+                    placeholder="Search keywords (e.g., peace, duty, mind)..." onkeyup="handleSearch(event)">
+            </div>
+
+            <!-- Mood Buttons Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+                <button onclick="filterShlokas('anger')" class="mood-card group rounded-2xl h-40 relative text-left">
+                    <img src="assets/mood_anger.png" alt="Anger" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                        <span
+                            class="text-2xl mb-1 transform group-hover:-translate-y-1 transition-transform duration-300">😡</span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md mood-text"
+                            data-key="anger">Anger</span>
+                    </div>
+                </button>
+
+                <button onclick="filterShlokas('confusion')"
+                    class="mood-card group rounded-2xl h-40 relative text-left">
+                    <img src="assets/mood_confusion.png" alt="Confusion"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                        <span
+                            class="text-2xl mb-1 transform group-hover:-translate-y-1 transition-transform duration-300">🤔</span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md mood-text"
+                            data-key="confusion">Confusion</span>
+                    </div>
+                </button>
+
+                <button onclick="filterShlokas('sadness')" class="mood-card group rounded-2xl h-40 relative text-left">
+                    <img src="assets/mood_sadness.png" alt="Sadness"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                        <span
+                            class="text-2xl mb-1 transform group-hover:-translate-y-1 transition-transform duration-300">😔</span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md mood-text"
+                            data-key="sadness">Grief</span>
+                    </div>
+                </button>
+
+                <button onclick="filterShlokas('fear')" class="mood-card group rounded-2xl h-40 relative text-left">
+                    <img src="assets/mood_fear.png" alt="Fear" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                        <span
+                            class="text-2xl mb-1 transform group-hover:-translate-y-1 transition-transform duration-300">😨</span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md mood-text"
+                            data-key="fear">Anxiety</span>
+                    </div>
+                </button>
+
+                <button onclick="filterShlokas('lazy')" class="mood-card group rounded-2xl h-40 relative text-left">
+                    <img src="assets/mood_lazy.png" alt="Laziness" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                        <span
+                            class="text-2xl mb-1 transform group-hover:-translate-y-1 transition-transform duration-300">🥱</span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md mood-text"
+                            data-key="lazy">Laziness</span>
+                    </div>
+                </button>
+
+                <button onclick="surpriseMe()" class="mood-card group rounded-2xl h-40 relative text-left">
+                    <img src="assets/mood_surprise.png" alt="Surprise"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 p-5 flex flex-col justify-end z-10">
+                        <span
+                            class="text-2xl mb-1 transform group-hover:-translate-y-1 transition-transform duration-300">✨</span>
+                        <span class="font-bold text-white text-lg tracking-wide drop-shadow-md mood-text"
+                            data-key="surprise">Surprise Me</span>
+                    </div>
+                </button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="filterShlokas('all')"
+                    class="inline-flex items-center gap-2 text-gray-500 hover:text-orange-600 font-medium transition-colors py-2 px-4 rounded-lg hover:bg-orange-50/80"
+                    id="viewAllBtn">
+                    <span>View All Wisdom</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                <button onclick="showChapters()"
+                    class="inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium transition-colors py-2 px-4 rounded-lg bg-orange-50 hover:bg-orange-100 border border-orange-200"
+                    id="exploreChaptersBtn">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>Explore Chapters</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chapters Section -->
+        <div id="chaptersSection" class="hidden animate-fade-in">
+            <div
+                class="flex items-center justify-between mb-8 sticky top-20 bg-cream backdrop-blur-sm z-40 py-4 border-b border-orange-100/50">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-serif font-bold text-gray-900" id="chaptersTitle">Chapters of
+                        the Gita</h2>
+                    <p class="text-sm text-gray-500 mt-1" id="chaptersSubtitle">Explore the journey of Arjuna</p>
+                </div>
+                <button onclick="showHome()"
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/90 border border-gray-200 text-gray-600 hover:text-orange-600 hover:border-orange-200 shadow-sm transition-all">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span id="backHomeBtn">Back</span>
+                </button>
+            </div>
+            <div id="chaptersGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 pb-12">
+                <!-- Chapters injected via JS -->
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden animate-fade-in">
+            <div
+                class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sticky top-20 bg-cream backdrop-blur-sm z-40 py-4 -mx-4 px-4 sm:mx-0 sm:px-0 border-b border-orange-100/50">
+                <div>
+                    <h2 id="resultTitle" class="text-2xl md:text-3xl font-serif font-bold text-gray-900">Guidance for
+                        Anger</h2>
+                    <p id="resultCount" class="text-sm text-gray-500 mt-1">Showing relevant verses</p>
+                </div>
+                <button onclick="showHome()"
+                    class="self-start sm:self-auto flex items-center gap-2 px-4 py-2 rounded-lg bg-white/90 border border-gray-200 text-gray-600 hover:text-orange-600 hover:border-orange-200 shadow-sm transition-all"
+                    id="backBtn">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Back to Home</span>
+                </button>
+            </div>
+
+            <div id="cardsContainer" class="grid md:grid-cols-2 lg:grid-cols-2 gap-6 pb-12">
+                <!-- Cards injected via JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white/70 backdrop-blur-sm mt-auto relative z-10">
+        <div
+            class="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-orange-600 text-white flex items-center justify-center text-xs">ॐ
+                </div>
+                <span class="font-serif font-bold text-gray-800">Gita Guidance</span>
+            </div>
+            <p class="text-center text-gray-500 text-sm">
+                &copy; <span id="year"></span>. <span id="footerText">Made for peace and clarity.</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data Source ---
+        const shlokaBank = [
+            // --- DUTY & WORK (KARMA YOGA) ---
+            {
+                id: 1,
+                chapter: 2,
+                verse: 47,
+                category: ['confusion', 'fear', 'lazy', 'duty', 'work'],
+                sanskrit: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।\\nमा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥",
+                translation_en: "You have a right to perform your prescribed duty, but you are not entitled to the fruits of action. Never consider yourself the cause of the results of your activities, and never be attached to not doing your duty.",
+                translation_hi: "Tera karm karne mein hi adhikar hai, uske phalon mein kabhi nahi. Isliye tu karmon ke phal ka hetu mat ho aur teri akarmanyata (kaam na karne) mein bhi aasakti na ho.",
+                takeaway_en: "Focus on your effort, not the result. Anxiety comes from trying to control outcomes you cannot control.",
+                takeaway_hi: "Keval apne kaam par dhyan do, parinaam par nahi. Chinta tab hoti hai jab hum natije ko kabu karna chahte hain.",
+                tag: "Duty First"
+            },
+            {
+                id: 11,
+                chapter: 3,
+                verse: 8,
+                category: ['lazy', 'duty', 'action'],
+                sanskrit: "नियतं कुरु कर्म त्वं कर्म ज्यायो ह्यकर्मणः।\\nशरीरयात्रापि च ते न प्रसिद्ध्येदकर्मणः॥",
+                translation_en: "Perform your prescribed duty, for doing so is better than not working. One cannot even maintain one's physical body without work.",
+                translation_hi: "Tu shastra-vihit kartavya karm kar, kyunki karm na karne ki apeksha karm karna shreshtha hai; tatha karm na karne se tera sharir-nirvah bhi nahi siddh hoga.",
+                takeaway_en: "Action is always better than inaction. Laziness leads to decay; work sustains life and purpose.",
+                takeaway_hi: "Kaam na karne se behtar hai kaam karna. Aalasy se jeevan ruk jata hai, mehnat se hi jeevan chalta hai.",
+                tag: "Action vs Inaction"
+            },
+            {
+                id: 23,
+                chapter: 3,
+                verse: 19,
+                category: ['work', 'detachment', 'duty'],
+                sanskrit: "तस्मादसक्तः सततं कार्यं कर्म समाचर।\\nअसक्तो ह्याचरन्कर्म परमाप्नोति पूरुषः॥",
+                translation_en: "Therefore, without being attached to the fruits of activities, one should act as a matter of duty, for by working without attachment one attains the Supreme.",
+                translation_hi: "Isliye tu nirantar aasakti se rahit hokar kartavya karm ka bhali-bhanti aacharan kar, kyunki aasakti se rahit hokar karm karta hua purush parmatma ko prapt ho jata hai.",
+                takeaway_en: "Do your job perfectly, but don't get addicted to the rewards. Work for the sake of working well.",
+                takeaway_hi: "Bina fal ki chinta kiye, apna kaam poori imandari se karo. Yahi safalta ka raaz hai.",
+                tag: "Selfless Action"
+            },
+            {
+                id: 24,
+                chapter: 18,
+                verse: 47,
+                category: ['duty', 'career', 'confusion', 'self'],
+                sanskrit: "श्रेयान्स्वधर्मो विगुणः परधर्मात्स्वनुष्ठितात्।\\nस्वभावनियतं कर्म कुर्वन्नाप्नोति किल्बिषम्॥",
+                translation_en: "It is better to engage in one's own occupation, even though one may perform it imperfectly, than to accept another's occupation and perform it perfectly.",
+                translation_hi: "Achhi prakar aacharan mein laye hue dusre ke dharm se gun-rahit bhi apna dharm ati uttam hai. Apne swabhav ke anusar shastra-vidhi se niyat kiye hue karm ko karta hua manushya paap ko prapt nahi hota.",
+                takeaway_en: "Be yourself. It is better to do your own imperfect destiny than to live someone else's perfect life.",
+                takeaway_hi: "Khud bano. Kisi aur ki nakal karne se behtar hai apni raah par chalna, bhale hi wo mushkil ho.",
+                tag: "Authenticity"
+            },
+            {
+                id: 25,
+                chapter: 2,
+                verse: 38,
+                category: ['duty', 'fear', 'balance'],
+                sanskrit: "सुखदुःखे समे कृत्वा लाभालाभौ जयाजयौ।\\nततो युद्धाय युज्यस्व नैवं पापमवाप्स्यसि॥",
+                translation_en: "Do thou fight for the sake of fighting, without considering happiness or distress, loss or gain, victory or defeat—and by so doing you shall never incur sin.",
+                translation_hi: "Sukh-dukh, labh-hani aur jay-parajay ko saman samajhkar, uske baad yuddh ke liye taiyar ho ja; is prakar yuddh karne se tu paap ko prapt nahi hoga.",
+                takeaway_en: "Treat success and failure as the same. Just do what needs to be done.",
+                takeaway_hi: "Jeet aur haar ki chinta mat karo. Bas wo karo jo karna zaroori hai.",
+                tag: "Warrior Mindset"
+            },
+
+            // --- ANGER, LUST & EMOTIONAL CONTROL ---
+            {
+                id: 2,
+                chapter: 2,
+                verse: 63,
+                category: ['anger', 'mind', 'control'],
+                sanskrit: "क्रोधाद्भवति सम्मोहः सम्मोहात्स्मृतिविभ्रमः।\\nस्मृतिभ्रंशाद् बुद्धिनाशो बुद्धिनाशात्प्रणश्यति॥",
+                translation_en: "From anger comes complete delusion, and from delusion bewilderment of memory. When memory is bewildered, intelligence is lost, and when intelligence is lost one falls down again into the material pool.",
+                translation_hi: "Krodh se atyant moodh bhav utpann hota hai, moodh bhav se smriti mein bhram hota hai, smriti mein bhram hone se buddhi ka naash hota hai.",
+                takeaway_en: "Anger kills your ability to think rationally. A moment of anger can destroy years of relationships and progress.",
+                takeaway_hi: "Gussa sochne ki takat cheen leta hai. Gusse ka ek pal saalon ki mehnat aur rishte khatam kar sakta hai.",
+                tag: "The Chain of Ruin"
+            },
+            {
+                id: 12,
+                chapter: 2,
+                verse: 62,
+                category: ['anger', 'desire', 'addiction'],
+                sanskrit: "ध्यायतो विषयान्पुंसः सङ्गस्तेषूपजायते।\\nसङ्गात्सञ्जायते कामः कामात्क्रोधोऽभिजायते॥",
+                translation_en: "While contemplating the objects of the senses, a person develops attachment for them, and from such attachment lust develops, and from lust anger arises.",
+                translation_hi: "Vishayon ka chintan karne wale purush ki un vishayon mein aasakti ho jati hai, aasakti se un vishayon ki kamna utpann hoti hai aur kamna mein vighna padne se krodh utpann hota hai.",
+                takeaway_en: "It starts with a thought. Obsessing over something leads to attachment. When you don't get what you're attached to, anger explodes. Control the thought early.",
+                takeaway_hi: "Sabkuch ek vichar se shuru hota hai. Kisi cheez ke baare mein zyada sochne se lagav hota hai, aur jab wo nahi milti to gussa aata hai.",
+                tag: "Root of Anger"
+            },
+            {
+                id: 13,
+                chapter: 5,
+                verse: 26,
+                category: ['anger', 'peace', 'mind'],
+                sanskrit: "कामक्रोधवियुक्तानां यतीनां यतचेतसाम्।\\nअभितो ब्रह्मनिर्वाणं वर्तते विदितात्मनाम्॥",
+                translation_en: "Those who are free from anger and all material desires, who are self-realized, self-disciplined and constantly endeavoring for perfection, are assured of liberation in the Supreme in the very near future.",
+                translation_hi: "Kaam-krodh se rahit, jeete hue chitta wale, parabrahma parmatma ka sakshatkar kiye hue gyani purushon ke liye sab or se shant parabrahma parmatma hi paripurna hai.",
+                takeaway_en: "True peace is found when you are free from the agitation of desire and anger.",
+                takeaway_hi: "Asli shanti tab milti hai jab man se gussa aur bekar ki ichhayein hat jati hain.",
+                tag: "Freedom from Anger"
+            },
+            {
+                id: 26,
+                chapter: 3,
+                verse: 37,
+                category: ['anger', 'lust', 'desire', 'enemy'],
+                sanskrit: "काम एष क्रोध एष रजोगुणसमुद्भवः।\\nमहाशनो महापाप्मा विद्ध्येनमिह वैरिणम्॥",
+                translation_en: "It is lust only, Arjuna, which is born of contact with the material mode of passion and later transformed into wrath, and which is the all-devouring sinful enemy of this world.",
+                translation_hi: "Ye kaam hi hai, ye krodh hi hai; jo rajogun se utpann hota hai. Ye bahut khane wala (bhogi) aur mahapapi hai. Is vishay mein tu isko hi bairi jaan.",
+                takeaway_en: "Lust and Anger are insatiable fires. They are your enemies, not your friends. Recognize them and fight them.",
+                takeaway_hi: "Kaam aur Krodh kabhi na bharne wali aag hain. Ye aapke dushman hain, dost nahi.",
+                tag: "The Real Enemy"
+            },
+            {
+                id: 27,
+                chapter: 5,
+                verse: 22,
+                category: ['desire', 'pain', 'pleasure', 'addiction'],
+                sanskrit: "ये हि संस्पर्शजा भोगा दुःखयोनय एव ते।\\nआद्यन्तवन्तः कौन्तेय न तेषु रमते बुधः॥",
+                translation_en: "An intelligent person does not take part in the sources of misery, which are due to contact with the material senses. O son of Kunti, such pleasures have a beginning and an end, and so the wise man does not delight in them.",
+                translation_hi: "Indriya aur vishayon ke sanyog se utpann hone wale sab bhog, yadyapi vishay-purushon ko sukh-roop bhaaste hain, to bhi dukh ke hi hetu hain aur aadi-antwale hain arthaat anitya hain. Isliye budhiman viveki purush unmein nahi ramta.",
+                takeaway_en: "Cheap thrills lead to expensive pain. Sensory pleasures are temporary and often end in misery. Seek lasting joy instead.",
+                takeaway_hi: "Thodi der ka maza aksar lambi saza ban jata hai. Indriyon ke sukh asthayi hote hain.",
+                tag: "The Trap of Pleasure"
+            },
+
+            // --- SELF, MIND & DISCIPLINE ---
+            {
+                id: 3,
+                chapter: 6,
+                verse: 5,
+                category: ['sadness', 'lazy', 'confusion', 'self', 'mind'],
+                sanskrit: "उद्धरेदात्मनात्मानं नात्मानमवसादयेत्।\\nआत्मैव ह्यात्मनो बन्धुरात्मैव रिपुरात्मनः॥",
+                translation_en: "One must deliver himself with the help of his mind, and not degrade himself. The mind is the friend of the conditioned soul, and his enemy as well.",
+                translation_hi: "Apne dwara apna sansar-samudra se uddhar kare aur apne ko adhogati mein na dale; kyunki ye manushya aap hi to apna mitra hai aur aap hi apna shatru hai.",
+                takeaway_en: "You are your own saviour. Don't wait for others. Your mindset is your best tool or your worst weapon.",
+                takeaway_hi: "Aap khud ke uddharak hain. Kisi aur ka intezaar na karein. Aapki soch hi aapki sabse badi takat ya kamzori hai.",
+                tag: "Self-Reliance"
+            },
+            {
+                id: 14,
+                chapter: 6,
+                verse: 6,
+                category: ['mind', 'self-control'],
+                sanskrit: "बन्धुरात्मात्मनस्तस्य येनात्मैवात्मना जितः ।\\nअनात्मनस्तु शत्रुत्वे वर्तेतात्मैव शत्रुवत् ॥",
+                translation_en: "For him who has conquered the mind, the mind is the best of friends; but for one who has failed to do so, his mind will remain the greatest enemy.",
+                translation_hi: "Jisne man ko jeet liya hai, uske liye man sabse bada dost hai; lekin jo man ke vash mein hai, uske liye man dushman jaisa hai.",
+                takeaway_en: "Control your mind or it will control you. A disciplined mind leads to success; an uncontrolled mind leads to ruin.",
+                takeaway_hi: "Apne man ko kabu mein karein, nahi to wo aapko kabu karega.",
+                tag: "Mind Control"
+            },
+            {
+                id: 15,
+                chapter: 6,
+                verse: 35,
+                category: ['confusion', 'lazy', 'practice', 'focus'],
+                sanskrit: "असंशयं महाबाहो मनो दुर्निग्रहं चलम् ।\\nअभ्यासेन तु कौन्तेय वैराग्येण च गृह्यते ॥",
+                translation_en: "O mighty-armed son of Kunti, it is undoubtedly very difficult to curb the restless mind, but it is possible by suitable practice and by detachment.",
+                translation_hi: "He mahabaho! Nishsandeh man chanchal aur kathinai se vash mein hone wala hai; parantu he kuntiputra! Ise abhyas aur vairagya se vash mein kiya ja sakta hai.",
+                takeaway_en: "Taming the mind takes time. Don't give up. Consistent practice (Abhyasa) and letting go of unnecessary things (Vairagya) is the key.",
+                takeaway_hi: "Man ko kabu karna mushkil hai par namumkin nahi. Lagatar abhyas aur bekar cheezon se dhyan hatane se ye sambhav hai.",
+                tag: "Practice Makes Perfect"
+            },
+            {
+                id: 28,
+                chapter: 6,
+                verse: 26,
+                category: ['mind', 'focus', 'meditation'],
+                sanskrit: "यतो यतो निश्चरति मनश्चञ्चलमस्थिरम्।\\nततस्ततो नियम्यैतदात्मन्येव वशं नयेत्॥",
+                translation_en: "From wherever the mind wanders due to its flickering and unsteady nature, one must certainly withdraw it and bring it back under the control of the Self.",
+                translation_hi: "Ye sthir na rehne wala aur chanchal man jis-jis shabdaadi vishay ke nimit se sansar mein vicharta hai, us-us vishay se rokkar isko baar-baar aatma mein hi sthir kare.",
+                takeaway_en: "When your mind wanders, gently bring it back. Again and again. This is the essence of meditation.",
+                takeaway_hi: "Jab bhi man bhatke, use pyaar se wapas lao. Baar baar. Yahi dhyan ka saar hai.",
+                tag: "Re-focusing"
+            },
+            {
+                id: 29,
+                chapter: 6,
+                verse: 17,
+                category: ['lazy', 'balance', 'health'],
+                sanskrit: "युक्ताहारविहारस्य युक्तचेष्टस्य कर्मसु।\\nयुक्तस्वप्नावबोधस्य योगो भवति दुःखहा॥",
+                translation_en: "He who is regulated in his habits of eating, sleeping, recreation and work can mitigate all material pains by practicing the yoga system.",
+                translation_hi: "Jiska aahar aur vihar yukt (niyamit) hai, jiske karmon mein cheshta yukt hai aur jiska sona-jagna niyamit hai, uska yog dukhon ka naash karne wala hota hai.",
+                takeaway_en: "Balance is key. Don't eat too much or too little. Don't sleep too much or too little. Regulate your life to destroy pain.",
+                takeaway_hi: "Santulan hi jeevan hai. Na zyada khao, na kam. Na zyada so, na kam. Apni dincharya sudharo.",
+                tag: "Balanced Living"
+            },
+
+            // --- GRIEF & FEAR (DEATH/CHANGE) ---
+            {
+                id: 4,
+                chapter: 2,
+                verse: 20,
+                category: ['sadness', 'fear', 'death', 'soul'],
+                sanskrit: "न जायते म्रियते वा कदाचि\\nन्नायं भूत्वा भविता वा न भूयः।\\nअजो नित्यः शाश्वतोऽयं पुराणो\\nन हन्यते हन्यमाने शरीरे॥",
+                translation_en: "For the soul there is neither birth nor death at any time. He is unborn, eternal, ever-existing and primeval. He is not slain when the body is slain.",
+                translation_hi: "Atma na kisi kaal mein janmti hai aur na marti hai... sharir ke mare jane par bhi ye nahi mari jati.",
+                takeaway_en: "You are eternal energy. Death is just a change of clothes for the soul. Do not grieve for the temporary body.",
+                takeaway_hi: "Aap anant urja hain. Mrityu keval sharir ka badlav hai. Nashwar sharir ke liye shok na karein.",
+                tag: "Eternal Soul"
+            },
+            {
+                id: 5,
+                chapter: 2,
+                verse: 14,
+                category: ['sadness', 'confusion', 'pain', 'tolerance'],
+                sanskrit: "मात्रास्पर्शास्तु कौन्तेय शीतोष्णसुखदुःखदाः।\\nआगमापायिनोऽनित्यास्तांस्तितिक्षस्व भारत॥",
+                translation_en: "O son of Kunti, the nonpermanent appearance of happiness and distress are like the appearance and disappearance of winter and summer seasons. One must learn to tolerate them.",
+                translation_hi: "Sardi-garmi aur sukh-dukh aane-jane wale hain. Inko sahan karna seekho.",
+                takeaway_en: "This too shall pass. Happiness and sadness are temporary phases like seasons. Stay strong through the winter.",
+                takeaway_hi: "Ye waqt bhi guzar jayega. Sukh aur dukh mausam ki tarah aate-jate hain. Himmat rakhein.",
+                tag: "Impermanence"
+            },
+            {
+                id: 16,
+                chapter: 2,
+                verse: 22,
+                category: ['sadness', 'death'],
+                sanskrit: "वासांसि जीर्णानि यथा विहाय\\nनवानि गृह्णाति नरोऽपराणि।\\nतथा शरीराणि विहाय जीर्णा\\nन्यन्यानि संयाति नवानि देही॥",
+                translation_en: "As a person puts on new garments, giving up old ones, the soul similarly accepts new material bodies, giving up the old and useless ones.",
+                translation_hi: "Jaise manushya purane vastron ko tyagkar dusre naye vastron ko grahan karta hai, waise hi jivatma purane shariron ko tyagkar dusre naye shariron ko prapt hota hai.",
+                takeaway_en: "Death is not the end; it is a new beginning. It is as natural as changing clothes.",
+                takeaway_hi: "Mrityu ant nahi, ek nayi shuruwat hai. Ye kapde badalne jaisa sahaj hai.",
+                tag: "Cycle of Life"
+            },
+            {
+                id: 30,
+                chapter: 2,
+                verse: 27,
+                category: ['death', 'fear', 'sadness'],
+                sanskrit: "जातस्य हि ध्रुवो मृत्युर्ध्रुवं जन्म मृतस्य च।\\nतस्मादपरिहार्येऽर्थे न त्वं शोचितुमर्हसि॥",
+                translation_en: "One who has taken his birth is sure to die, and after death one is sure to take birth again. Therefore, in the unavoidable discharge of your duty, you should not lament.",
+                translation_hi: "Kyunki janme hue ki mrityu nishchit hai aur mare hue ka janm nishchit hai. Isliye is bina upay wale vishay mein tu shok karne yogya nahi hai.",
+                takeaway_en: "Death is inevitable for everything born. Why worry about something that cannot be changed?",
+                takeaway_hi: "Jo paida hua hai, uska jana tay hai. Jo badla nahi ja sakta, us par rona kaisa?",
+                tag: "Inevitability"
+            },
+
+            // --- EQUANIMITY & PEACE ---
+            {
+                id: 8,
+                chapter: 2,
+                verse: 48,
+                category: ['confusion', 'fear', 'balance', 'peace'],
+                sanskrit: "योगस्थः कुरु कर्माणि सङ्गं त्यक्त्वा धनञ्जय।\\nसिद्ध्यसिद्ध्योः समो भूत्वा समत्वं योग उच्यते॥",
+                translation_en: "Perform your duty equipoised, abandoning all attachment to success or failure. Such equanimity is called yoga.",
+                translation_hi: "Yog mein sthit hokar, siddhi-asiddhi mein saman hokar kartavya karm kar. Ye samatva bhaav hi yog kahlata hai.",
+                takeaway_en: "Real Yoga is mental balance. Keeping your cool in both success and failure is the ultimate skill.",
+                takeaway_hi: "Asli Yog mansik santulan hai. Jeet aur haar dono mein shant rehna hi sabse badi kala hai.",
+                tag: "Equanimity"
+            },
+            {
+                id: 17,
+                chapter: 2,
+                verse: 70,
+                category: ['peace', 'desire'],
+                sanskrit: "आपूर्यमाणमचलप्रतिष्ठं\\nसमुद्रमापः प्रविशन्ति यद्वत्।\\nतद्वत्कामा यं प्रविशन्ति सर्वे\\nस शान्तिमाप्नोति न कामकामी॥",
+                translation_en: "A person who is not disturbed by the incessant flow of desires—that enter like rivers into the ocean, which is ever being filled but is always still—can alone achieve peace, and not the man who strives to satisfy such desires.",
+                translation_hi: "Jaise nadiyaan samudra mein girkar use vichalit nahi kar pati, waise hi jis purush ko bhog-vilas vichalit nahi karte, wahi shanti pata hai.",
+                takeaway_en: "Be like the ocean. Rivers of problems and desires will flow into you, but do not let them disturb your depth and stillness.",
+                takeaway_hi: "Samudra ki tarah bano. Samasyaein aayengi, par apni gahrai aur shanti mat khone do.",
+                tag: "Ocean-like Peace"
+            },
+            {
+                id: 31,
+                chapter: 5,
+                verse: 10,
+                category: ['peace', 'detachment', 'work'],
+                sanskrit: "ब्रह्मण्याधाय कर्माणि सङ्गं त्यक्त्वा करोति यः।\\nलिप्यते न स पापेन पद्मपत्रमिवाम्भसा॥",
+                translation_en: "One who performs his duty without attachment, surrendering the results unto the Supreme Lord, is unaffected by sinful action, as the lotus leaf is untouched by water.",
+                translation_hi: "Jo purush sab karmon ko parmatma mein arpan karke aur aasakti ko tyagkar karm karta hai, wo purush jal se kamal ke patte ki bhanti paap se lipt nahi hota.",
+                takeaway_en: "Be like a lotus leaf in water—surrounded by the world but untouched by its negativity.",
+                takeaway_hi: "Duniya mein raho par duniya ko khud par haavi mat hone do, jaise kamal pani mein rehkar bhi sookha rehta hai.",
+                tag: "Lotus Mindset"
+            },
+            {
+                id: 32,
+                chapter: 12,
+                verse: 13,
+                category: ['peace', 'relationships', 'kindness'],
+                sanskrit: "अद्वेष्टा सर्वभूतानां मैत्रः करुण एव च।\\nनिर्ममो निरहङ्कारः समदुःखसुखः क्षमी॥",
+                translation_en: "One who is not envious but is a kind friend to all living entities, who does not think himself a proprietor and is free from false ego, who is equal in both happiness and distress, who is tolerant...",
+                translation_hi: "Jo purush sab bhuton mein dvesh bhav se rahit, swarth rahit, sabka premi aur hetu rahit dayalu hai, tatha mamta se rahit, ahankar se rahit, sukh-dukhon ki prapti mein sam aur kshamavan hai...",
+                takeaway_en: "The best way to live is without ego, possessiveness, or hatred. Be a friend to everyone.",
+                takeaway_hi: "Sabse accha jeevan wo hai jisme ghamand aur nafrat na ho. Sabke dost bano.",
+                tag: "Ideal Character"
+            },
+
+            // --- FAITH & SURRENDER (BHAKTI YOGA) ---
+            {
+                id: 6,
+                chapter: 4,
+                verse: 7,
+                category: ['fear', 'faith', 'hope'],
+                sanskrit: "यदा यदा हि धर्मस्य ग्लानिर्भवति भारत।\\nअभ्युत्थानमधर्मस्य तदात्मानं सृजाम्यहम्॥",
+                translation_en: "Whenever and wherever there is a decline in religious practice, and a predominant rise of irreligion—at that time I descend Myself.",
+                translation_hi: "Jab-jab dharm ki haani aur adharm ki vriddhi hoti hai, tab-tab hi main apne roop ko rachta hun.",
+                takeaway_en: "Good always triumphs eventually. When injustice peaks, a corrective force will manifest. Keep faith.",
+                takeaway_hi: "Burai ka ant nishchit hai. Jab adharm badhta hai, tab ishwar use mitane aate hain.",
+                tag: "Divine Protection"
+            },
+            {
+                id: 9,
+                chapter: 18,
+                verse: 66,
+                category: ['fear', 'confusion', 'surrender', 'liberation'],
+                sanskrit: "सर्वधर्मान्परित्यज्य मामेकं शरणं व्रज।\\nअहं त्वा सर्वपापेभ्यो मोक्षयिष्यामि मा शुचः॥",
+                translation_en: "Abandon all varieties of religion and just surrender unto Me. I shall deliver you from all sinful reactions. Do not fear.",
+                translation_hi: "Sab dharmon ko chhodkar keval meri sharan mein aaja. Main tujhe sab papon se mukt kar dunga, shok mat kar.",
+                takeaway_en: "Stop overthinking. When you feel helpless, surrender your worries to the Divine. You are protected.",
+                takeaway_hi: "Zyada sochna band karo. Jab kuch samajh na aaye, to sab ishwar par chhod do. Wo sambhal lenge.",
+                tag: "Ultimate Surrender"
+            },
+            {
+                id: 18,
+                chapter: 9,
+                verse: 22,
+                category: ['fear', 'security', 'faith'],
+                sanskrit: "अनन्याश्चिन्तयन्तो मां ये जनाः पर्युपासते।\\nतेषां नित्याभियुक्तानां योगक्षेमं वहाम्यहम्॥",
+                translation_en: "But those who always worship Me with exclusive devotion, meditating on My transcendental form—to them I carry what they lack, and I preserve what they have.",
+                translation_hi: "Jo ananya bhav se mera chintan karte hain, un nitya-yukt bhakton ka yog-kshem (prapti aur raksha) main khud vahan karta hun.",
+                takeaway_en: "If you align yourself with the cosmic purpose, the universe will provide for your needs and protect what you have.",
+                takeaway_hi: "Agar aap sahi raah par hain, to brahmand aapki saari zaruraton ka dhyan rakhega.",
+                tag: "Divine Insurance"
+            },
+            {
+                id: 33,
+                chapter: 9,
+                verse: 27,
+                category: ['work', 'faith', 'daily-life'],
+                sanskrit: "यत्करोषि यदश्नासि यज्जुहोषि ददासि यत्।\\nयत्तपस्यसि कौन्तेय तत्कुरुष्व मदर्पणम्॥",
+                translation_en: "Whatever you do, whatever you eat, whatever you offer or give away, and whatever austerities you perform—do that, O son of Kunti, as an offering to Me.",
+                translation_hi: "He Kuntiputra! Tu jo kuch karta hai, jo kuch khata hai, jo kuch havan karta hai, jo kuch daan deta hai aur jo kuch tap karta hai, wo sab mere arpan kar.",
+                takeaway_en: "Turn your daily life into a prayer. Work, eat, and live as an offering to the greater good.",
+                takeaway_hi: "Apne har kaam ko prarthana bana lo. Jo bhi karo, use ishwar ko samarpit karke karo.",
+                tag: "Sanctified Life"
+            },
+            {
+                id: 34,
+                chapter: 12,
+                verse: 5,
+                category: ['confusion', 'faith', 'path'],
+                sanskrit: "क्लेशोऽधिकतरस्तेषामव्यक्तासक्तचेतसाम्।\\nअव्यक्ता हि गतिर्दुःखं देहवद्भिरवाप्यते॥",
+                translation_en: "For those whose minds are attached to the unmanifested, impersonal feature of the Supreme, advancement is very troublesome. To make progress in that discipline is always difficult for those who are embodied.",
+                translation_hi: "Un sachidanandghan nirakar brahma mein aasakt chittawale purushon ke saadhan mein parishram vishesh hai; kyunki dehabhimaniyon dwara avyakta-vishayak gati dukhpurvak prapt ki jati hai.",
+                takeaway_en: "It is hard to love an abstract concept. It is easier to love a personal God or find divinity in people.",
+                takeaway_hi: "Nirakar ko manna mushkil hai. Ishwar ko kisi roop mein ya insano mein dekhna aasan hai.",
+                tag: "Path of Devotion"
+            },
+            {
+                id: 35,
+                chapter: 7,
+                verse: 16,
+                category: ['faith', 'distress', 'wealth'],
+                sanskrit: "चतुर्विधा भजन्ते मां जनाः सुकृतिनोऽर्जुन।\\nआर्तो जिज्ञासुरर्थार्थी ज्ञानी च भरतर्षभ॥",
+                translation_en: "O best among the Bharatas, four kinds of pious men begin to render devotional service unto Me—the distressed, the desirer of wealth, the inquisitive, and he who is searching for knowledge of the Absolute.",
+                translation_hi: "He Bharatshreshth Arjun! Uttam karm karne wale artharthi, aart, jigyasu aur gyani—aise char prakar ke bhaktjan mujhko bhajte hain.",
+                takeaway_en: "People turn to God for many reasons: pain, money, curiosity, or wisdom. All are welcome.",
+                takeaway_hi: "Log kai wajahon se ishwar ko yaad karte hain: dukh, paisa, jigyasa ya gyan. Sabhi raaste sahi hain.",
+                tag: "All Are Welcome"
+            },
+
+            // --- CHARACTER, ETHICS & EGO ---
+            {
+                id: 10,
+                chapter: 16,
+                verse: 21,
+                category: ['anger', 'lust', 'greed', 'warning'],
+                sanskrit: "त्रिविधं नरकस्येदं द्वारं नाशनमात्मनः।\\nकामः क्रोधस्तथा लोभस्तस्मादेतत्त्रयं त्यजेत्॥",
+                translation_en: "There are three gates leading to this hell—lust, anger and greed. Every sane man should give these up, for they lead to the degradation of the soul.",
+                translation_hi: "Kaam, krodh aur lobh - ye aatma ka naash karne wale narak ke teen dwaar hain, isliye in teeno ko tyag dena chahiye.",
+                takeaway_en: "Lust, Anger, and Greed are the toxic trio. If you find yourself in their grip, escape immediately.",
+                takeaway_hi: "Kaam, Krodh aur Lobh barbad karne wale raste hain. Inse turant door ho jayein.",
+                tag: "Three Gates of Hell"
+            },
+            {
+                id: 19,
+                chapter: 17,
+                verse: 15,
+                category: ['speech', 'anger', 'discipline', 'relationships'],
+                sanskrit: "अनुद्वेगकरं वाक्यं सत्यं प्रियहितं च यत्।\\nस्वाध्यायाभ्यसनं चैव वाङ्मयं तप उच्यते॥",
+                translation_en: "Austerity of speech consists in speaking words that are truthful, pleasing, beneficial, and not agitating to others, and also in regularly reciting Vedic literature.",
+                translation_hi: "Jo udveg na karne wala, satya, priya aur hitkarak bhashan hai tatha jo ved-shastron ke pathan-pathan ka abhyas hai—wahi vani-sambandhi tap kaha jata hai.",
+                takeaway_en: "Speak the truth, but speak it sweetly. If your words hurt others unnecessarily, it is better to remain silent.",
+                takeaway_hi: "Sach bolo, par mitha bolo. Agar tumhari baaton se kisi ka dil dukhne wala hai, to chup rehna behtar hai.",
+                tag: "Art of Speech"
+            },
+            {
+                id: 20,
+                chapter: 3,
+                verse: 21,
+                category: ['leadership', 'duty', 'influence'],
+                sanskrit: "यद्यदाचरति श्रेष्ठस्तत्तदेवेतरो जनः।\\nस यत्प्रमाणं कुरुते लोकस्तदनुवर्तते॥",
+                translation_en: "Whatever action a great man performs, common men follow. And whatever standards he sets by exemplary acts, all the world pursues.",
+                translation_hi: "Shreshtha purush jaisa aacharan karta hai, anya purush bhi waisa hi aacharan karte hain. Wo jo praman kar deta hai, duniya usi ke anusar chalti hai.",
+                takeaway_en: "Lead by example. People don't listen to what you say; they watch what you do.",
+                takeaway_hi: "Udaharan ban kar netritva karo. Log wo nahi karte jo tum kehte ho, wo karte hain jo tum karte ho.",
+                tag: "Leadership"
+            },
+            {
+                id: 36,
+                chapter: 16,
+                verse: 1,
+                category: ['fear', 'purity', 'character'],
+                sanskrit: "अभयं सत्त्वसंशुद्धिर्ज्ञानयोगव्यवस्थितिः।\\nदानं दमश्च यज्ञश्च स्वाध्यायस्तप आर्जवम्॥",
+                translation_en: "Fearlessness; purification of one's existence; cultivation of spiritual knowledge; charity; self-control; performance of sacrifice; study of the Vedas; austerity; simplicity...",
+                translation_hi: "Bhay ka sarvatha abhav, antahkaran ki purn nirmalta, tattvagyan ke liye dhyan yog mein nirantar dridh sthiti aur sattvik daan...",
+                takeaway_en: "Fearlessness (Abhayam) is the first quality of a divine person. Be brave in your truth.",
+                takeaway_hi: "Nidar hona (Abhayam) ek divya gun hai. Apni sachai par date raho.",
+                tag: "Fearlessness"
+            },
+            {
+                id: 37,
+                chapter: 3,
+                verse: 27,
+                category: ['ego', 'confusion', 'humility'],
+                sanskrit: "प्रकृतेः क्रियमाणानि गुणैः कर्माणि सर्वशः।\\nअहङ्कारविमूढात्मा कर्ताहमिति मन्यते॥",
+                translation_en: "The spirit soul bewildered by the influence of false ego thinks himself the doer of activities that are in actuality carried out by the three modes of material nature.",
+                translation_hi: "Vaastav mein sampurn karm sab prakar se prakriti ke gunon dwara kiye jate hain, to bhi jiska antahkaran ahankar se mohit ho raha hai, aisa agyani 'Main karta hun' aisa manta hai.",
+                takeaway_en: "Don't let your ego fool you. You are not the sole doer; many forces act through you. Stay humble.",
+                takeaway_hi: "Ghamand mat karo. Tum akele kuch nahi karte, prakriti ki shaktiyan tumhare dwara kaam karti hain.",
+                tag: "False Ego"
+            },
+            {
+                id: 38,
+                chapter: 5,
+                verse: 18,
+                category: ['relationships', 'equality', 'vision'],
+                sanskrit: "विद्याविनयसम्पन्ने ब्राह्मणे गवि हस्तिनि।\\nशुनि चैव श्वपाके च पण्डिताः समदर्शिनः॥",
+                translation_en: "The humble sages, by virtue of true knowledge, see with equal vision a learned and gentle brahmana, a cow, an elephant, a dog and a dog-eater (outcaste).",
+                translation_hi: "Vigyani-jan vidya aur vinay-yukt brahman mein tatha gau, hathi, kutte aur chandal mein bhi samadarshi hi hote hain.",
+                takeaway_en: "True wisdom is seeing the same soul in every living being, regardless of their outer appearance.",
+                takeaway_hi: "Asli gyan wahi hai jo har jeev mein ek hi aatma ko dekhe, chahe wo koi bhi ho.",
+                tag: "Universal Vision"
+            },
+
+            // --- VICTORY & FOCUS ---
+            {
+                id: 21,
+                chapter: 2,
+                verse: 41,
+                category: ['confusion', 'focus', 'success'],
+                sanskrit: "व्यवसायात्मिका बुद्धिरेकेह कुरुनन्दन।\\nबहुशाखा ह्यनन्ताश्च बुद्धयोऽव्यवसायिनाम्॥",
+                translation_en: "Those who are on this path are resolute in purpose, and their aim is one. O beloved child of the Kurus, the intelligence of those who are irresolute is many-branched.",
+                translation_hi: "Is karm-yog mein nishchayatmika buddhi ek hi hoti hai; kintu asthir vichar wale vivekheen sakam manushyon ki buddhiyan nishchay hi bahut bhedon wali aur anant hoti hain.",
+                takeaway_en: "Success requires single-pointed focus. If your mind is scattered on too many goals, you will achieve none.",
+                takeaway_hi: "Safalta ke liye ek lakshya par dhyan lagana zaroori hai. Agar dhyan bhatka, to kuch haasil nahi hoga.",
+                tag: "Laser Focus"
+            },
+            {
+                id: 22,
+                chapter: 18,
+                verse: 78,
+                category: ['success', 'victory', 'faith'],
+                sanskrit: "यत्र योगेश्वरः कृष्णो यत्र पार्थो धनुर्धरः।\\nतत्र श्रीर्विजयो भूतिध्रुवा नीतिर्मतिर्मम॥",
+                translation_en: "Wherever there is Krishna, the master of all mystics, and wherever there is Arjuna, the supreme archer, there will also certainly be opulence, victory, extraordinary power, and morality.",
+                translation_hi: "Jahan yogeshwar bhagvan Shri Krishna hain aur jahan gandiv-dhanushdhari Arjun hain, wahin par shri, vijay, vibhuti aur achal neeti hai—aisa mera mat hai.",
+                takeaway_en: "When you combine divine guidance (ethics) with human effort (skill), victory is guaranteed.",
+                takeaway_hi: "Jab sahi neeyat (Ishwar) aur sahi mehnat (Arjun) milte hain, to jeet pakki hoti hai.",
+                tag: "Formula for Victory"
+            },
+
+            // --- NEW ADDITIONS (Expanded Set) ---
+            {
+                id: 39,
+                chapter: 2,
+                verse: 3,
+                category: ['fear', 'courage', 'strength'],
+                sanskrit: "क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते।\\nक्षुद्रं हृदयदौर्बल्यं त्यक्त्वोत्तिष्ठ परन्तप॥",
+                translation_en: "O son of Pritha, do not yield to this degrading impotence. It does not become you. Give up such petty weakness of heart and arise, O chastiser of the enemy.",
+                translation_hi: "He Parth! Napunsakta ko mat prapt ho; tujhme ye uchit nahi janti. He Parantap! Hriday ki tucch durbalta ko tyagkar yuddh ke liye khada ho ja.",
+                takeaway_en: "Do not be weak. Shake off your petty fears and stand up to face your challenges.",
+                takeaway_hi: "Kamzor mat bano. Apne darr ko chhodkar khade ho jao aur samana karo.",
+                tag: "Stand Up"
+            },
+            {
+                id: 40,
+                chapter: 4,
+                verse: 34,
+                category: ['confusion', 'learning', 'humility'],
+                sanskrit: "तद्विद्धि प्रणिपातेन परिप्रश्नेन सेवया।\\nउपदेक्ष्यन्ति ते ज्ञानं ज्ञानिनस्तत्त्वदर्शिनः॥",
+                translation_en: "Just try to learn the truth by approaching a spiritual master. Inquire from him submissively and render service unto him. The self-realized souls can impart knowledge unto you.",
+                translation_hi: "Us gyan ko tu tattvadarshi gyanion ke paas jakar samajh; unko dandavat-pranam karne se, unki seva karne se aur kapat-rahit prashn karne se...",
+                takeaway_en: "If you want to learn, be humble. Approach those who know more than you with respect and a service mindset.",
+                takeaway_hi: "Agar seekhna chahte ho, to jhukna seekho. Gyaniyon ki seva aur adar se hi gyan milta hai.",
+                tag: "Seeking Knowledge"
+            },
+            {
+                id: 41,
+                chapter: 6,
+                verse: 32,
+                category: ['relationships', 'empathy', 'kindness'],
+                sanskrit: "आत्मौपम्येन सर्वत्र समं पश्यति योऽर्जुन।\\nसुखं वा यदि वा दुःखं स योगी परमो मतः॥",
+                translation_en: "He is a perfect yogi who, by comparison to his own self, sees the true equality of all beings, in both their happiness and their distress, O Arjuna.",
+                translation_hi: "He Arjun! Jo yogi apni bhanti sabuton mein sam dekhta hai aur sukh-dukh ko bhi sam dekhta hai, wo param shreshth mana gaya hai.",
+                takeaway_en: "Empathy is the highest Yoga. Feel others' pain and joy as if it were your own.",
+                takeaway_hi: "Dusron ke dukh aur sukh ko apna samajhna hi sabse bada yog hai.",
+                tag: "Empathy"
+            },
+            {
+                id: 42,
+                chapter: 10,
+                verse: 41,
+                category: ['inspiration', 'beauty', 'divinity'],
+                sanskrit: "यद्यद्विभूतिमत्सत्त्वं श्रीमदूर्जितमेव वा।\\nतत्तदेवावगच्छ त्वं मम तेजोंशसम्भवम्॥",
+                translation_en: "Know that all opulent, beautiful and glorious creations spring from but a spark of My splendor.",
+                translation_hi: "Jo-jo bhi aishvarya-yukt, kanti-yukt aur shakti-yukt vastu hai, us-usko tu mere tej ke ansh ki hi abhivyakti jaan.",
+                takeaway_en: "Every beautiful or powerful thing you see in this world is just a spark of the Divine.",
+                takeaway_hi: "Duniya ki har khubsurat aur shaktishali cheez ishwar ki chamak ka ek chhota sa हिस्सा hai.",
+                tag: "Source of Beauty"
+            },
+            {
+                id: 43,
+                chapter: 18,
+                verse: 61,
+                category: ['faith', 'destiny', 'soul'],
+                sanskrit: "ईश्वरः सर्वभूतानां हृद्देशेऽर्जुन तिष्ठति।\\nभ्रामयन्सर्वभूतानि यन्त्रारूढानि मायया॥",
+                translation_en: "The Supreme Lord is situated in everyone's heart, O Arjuna, and is directing the wanderings of all living entities, who are seated as on a machine, made of the material energy.",
+                translation_hi: "He Arjun! Sharir-roopi yantra mein aarudh hue sampurn praniyon ko antaryami parameshwar apni maya se unke karmon ke anusar bhramata hua sab bhuton ke hriday mein sthit hai.",
+                takeaway_en: "You are not driving alone. The Divine resides within you, guiding your journey through the ups and downs.",
+                takeaway_hi: "Aap akele nahi hain. Ishwar aapke dil mein hain aur jeevan ke safar mein aapka margdarshan kar rahe hain.",
+                tag: "Inner Guide"
+            },
+            {
+                id: 44,
+                chapter: 2,
+                verse: 56,
+                category: ['balance', 'peace', 'strength'],
+                sanskrit: "दुःखेष्वनुद्विग्नमनाः सुखेषु विगतस्पृहः।\\nवीतरागभयक्रोधः स्थितधीर्मुनिरुच्यते॥",
+                translation_en: "One who is not disturbed in mind even amidst the threefold miseries or elated when there is happiness, and who is free from attachment, fear and anger, is called a sage of steady mind.",
+                translation_hi: "Dukhon ki prapti hone par jiske man mein udveg nahi hota, sukhon ki prapti mein jo sarvatha nihsprih hai, tatha jiske raag, bhay aur krodh nasht ho gaye hain, aisa muni sthir-buddhi kaha jata hai.",
+                takeaway_en: "A steady mind does not panic in bad times and does not get arrogant in good times.",
+                takeaway_hi: "Sthir dimag wala insan bure waqt mein ghabrata nahi aur acche waqt mein ghamand nahi karta.",
+                tag: "Steady Wisdom"
+            },
+            {
+                id: 45,
+                chapter: 9,
+                verse: 30,
+                category: ['hope', 'redemption', 'forgiveness'],
+                sanskrit: "अपि चेत्सुदुराचारो भजते मामनन्यभाक्।\\nसाधुरेव स मन्तव्यः सम्यग्व्यवसितो हि सः॥",
+                translation_en: "Even if one commits the most abominable action, if he is engaged in devotional service he is to be considered saintly because he is properly situated in his determination.",
+                translation_hi: "Yadi koi ati durachari bhi ananya bhav se mera bhakt hokar mujhko bhajta hai to wo sadhu hi manne yogya hai, kyunki wo yatharth nishchay wala hai.",
+                takeaway_en: "It is never too late to change. Even the worst sinner becomes a saint the moment they sincerely turn towards the good.",
+                takeaway_hi: "Badalne ke liye kabhi der nahi hoti. Bura se bura insan bhi sudhar sakta hai agar wo sacche dil se koshish kare.",
+                tag: "Redemption"
+            },
+            {
+                id: 46,
+                chapter: 4,
+                verse: 38,
+                category: ['knowledge', 'purity', 'wisdom'],
+                sanskrit: "न हि ज्ञानेन सदृशं पवित्रमिह विद्यते।\\nतत्स्वयं योगसंसिद्धः कालेनात्मनि विन्दति॥",
+                translation_en: "In this world, there is nothing so sublime and pure as transcendental knowledge. Such knowledge is the mature fruit of all mysticism.",
+                translation_hi: "Is sansar mein gyan ke saman pavitra karne wala nishchay hi kuch bhi nahi hai. Us gyan ko kitne hi kaal se karm-yog dwara shuddh-antahkaran hua manushya apne aap hi aatma mein pa leta hai.",
+                takeaway_en: "True knowledge is the ultimate purifier. It cleanses confusion, fear, and guilt.",
+                takeaway_hi: "Sacha gyan sabse bada shuddhi-karan hai. Ye saare darr aur confusion ko mita deta hai.",
+                tag: "Power of Knowledge"
+            },
+            {
+                id: 47,
+                chapter: 11,
+                verse: 33,
+                category: ['destiny', 'action', 'surrender'],
+                sanskrit: "तस्मात्त्वमुत्तिष्ठ यशो लभस्व\\nजित्वा शत्रून् भुङ्क्ष्व राज्यं समृद्धम्।\\nमयैवैते निहताः पूर्वमेव\\nनिमित्तमात्रं भव सव्यसाचिन्॥",
+                translation_en: "Therefore get up. Prepare to fight and win glory. Conquer your enemies and enjoy a flourishing kingdom. They are already put to death by My arrangement, and you, O Savyasaci, can be but an instrument in the fight.",
+                translation_hi: "Isliye tu uth! Yash prapt kar aur shatruon ko jeetkar dhan-dhanya se sampann rajya ko bhog. Ye sab mere dwara pehle hi mare hue hain, tu to keval nimitt-matra ban ja.",
+                takeaway_en: "The universe has already set the plan. You just need to play your part confidently. Be an instrument of the divine.",
+                takeaway_hi: "Sabkuch pehle se tay hai. Tumhe bas apna kirdaar nibhana hai. Himmat se kaam karo, nateeja ishwar par chhod do.",
+                tag: "Be an Instrument"
+            },
+            {
+                id: 48,
+                chapter: 3,
+                verse: 9,
+                category: ['work', 'sacrifice', 'community'],
+                sanskrit: "यज्ञार्थात्कर्मणोऽन्यत्र लोकोऽयं कर्मबन्धनः।\\nतदर्थं कर्म कौन्तेय मुक्तसङ्गः समाचर॥",
+                translation_en: "Work done as a sacrifice for Vishnu has to be performed; otherwise work causes bondage in this material world. Therefore, O son of Kunti, perform your prescribed duties for His satisfaction.",
+                translation_hi: "Yajna ke liye kiye jane wale karmon se anyatra apne liye kiye jane wale karmon mein ye manushya-samuday karmon se bandhta hai. Isliye he Kuntiputra! Tu aasakti se rahit hokar us yajna ke liye hi kartavya-karm kar.",
+                takeaway_en: "Work done selfishly binds you. Work done as a contribution (Yajna) to the world frees you.",
+                takeaway_hi: "Svarth ke liye kiya gaya kaam bandhan hai. Duniya ki bhalai ke liye kiya gaya kaam mukti hai.",
+                tag: "Work as Sacrifice"
+            },
+            {
+                id: 49,
+                chapter: 14,
+                verse: 26,
+                category: ['liberation', 'transcendence', 'devotion'],
+                sanskrit: "मां च योऽव्यभिचारेण भक्तियोगेन सेवते।\\nस गुणान्समतीत्यैतान्ब्रह्मभूयाय कल्पते॥",
+                translation_en: "One who engages in full devotional service, unfailing in all circumstances, at once transcends the modes of material nature and thus comes to the level of Brahman.",
+                translation_hi: "Aur jo purush avyabhichari bhakti-yog dwara mujhko nirantar bhajta hai, wo in teeno gunon ko bhali-bhanti laanghkar sachidanandghan brahma ko prapt hone ke liye yogya ban jata hai.",
+                takeaway_en: "Unshakeable devotion helps you rise above the ups and downs of life (the three Gunas).",
+                takeaway_hi: "Atoot bhakti aapko jeevan ke utaar-chadhaav se upar utha deti hai.",
+                tag: "Rising Above"
+            },
+            {
+                id: 50,
+                chapter: 18,
+                verse: 63,
+                category: ['freedom', 'choice', 'wisdom'],
+                sanskrit: "इति ते ज्ञानमाख्यातं गुह्याद्गुह्यतरं मया।\\nविमृश्यैतदशेषेण यथेच्छसि तथा कुरु॥",
+                translation_en: "Thus I have explained to you knowledge still more confidential. Deliberate on this fully, and then do what you wish to do.",
+                translation_hi: "Is prakar ye gopniya se bhi ati gopniya gyan maine tumse keh diya. Ab tu is rahasya-yukt gyan ko purn-roop se aalochan karke, jaisi teri ichha ho waisa hi kar.",
+                takeaway_en: "God gives guidance, not orders. You have free will. Think deeply and choose your own path.",
+                takeaway_hi: "Ishwar raasta dikhate hain, hukum nahi dete. Soch-samajh kar apna faisla khud lo.",
+                tag: "Free Will"
+            },
+            {
+                id: 51,
+                chapter: 7,
+                verse: 7,
+                category: ['unity', 'truth', 'connection'],
+                sanskrit: "मत्तः परतरं नान्यत्किञ्चिदस्ति धनञ्जय।\\nमयि सर्वमिदं प्रोतं सूत्रे मणिगणा इव॥",
+                translation_en: "O conqueror of wealth, there is no truth superior to Me. Everything rests upon Me, as pearls are strung on a thread.",
+                translation_hi: "He Dhananjay! Mujhse bhinn dusra koi bhi param kaaran nahi hai. Ye sampurn jagat sootra mein sootra ke maniyon ki bhanti mujhme gutha hua hai.",
+                takeaway_en: "We are all connected. Like pearls on a single invisible thread, the Divine holds us all together.",
+                takeaway_hi: "Hum sab jude hue hain. Jaise mala ke moti ek dhage se jude hote hain, waise hi hum sab ishwar se jude hain.",
+                tag: "Interconnection"
+            },
+            {
+                id: 52,
+                chapter: 2,
+                verse: 59,
+                category: ['addiction', 'habits', 'growth'],
+                sanskrit: "विषया विनिवर्तन्ते निराहारस्य देहिनः।\\nरसवर्जं रसोऽप्यस्य परं दृष्ट्वा निवर्तते॥",
+                translation_en: "The embodied soul may be restricted from sense enjoyment, though the taste for sense objects remains. But, ceasing such engagements by experiencing a higher taste, he is fixed in consciousness.",
+                translation_hi: "Indriyon dwara vishayon ko grahan na karne wale purush ke bhi keval vishay to nivritta ho jate hain, parantu unmein rehne wali aasakti nivritta nahi hoti. Is sthitpragya purush ki to aasakti bhi parmatma ka sakshatkar karke nivritta ho jati hai.",
+                takeaway_en: "You cannot just stop a bad habit; you must replace it with a better one. Find a 'higher taste' to conquer the lower ones.",
+                takeaway_hi: "Buri aadat chhodne ke liye use acchi aadat se badalna padta hai. Kuch behtar dhundo.",
+                tag: "Higher Taste"
+            },
+            {
+                id: 53,
+                chapter: 13,
+                verse: 16,
+                category: ['unity', 'perception', 'truth'],
+                sanskrit: "बहिरन्तश्च भूतानामचरं चरमेव च।\\nसूक्ष्मत्वात्तदविज्ञेयं दूरस्थं चान्तिके च तत्॥",
+                translation_en: "The Supreme Truth exists both inside and outside of all moving and nonmoving living beings. He is the subtle, beyond the power of the material senses to see or to know. Although far, far away, He is also near to all.",
+                translation_hi: "Wo char-achar sab bhuton ke bahar-bheetar paripurn hai aur char-achar roop bhi wahi hai. Aur wo sukshma hone ke karan avigyey hai tatha wo ati sameep mein aur dur mein bhi sthit hai.",
+                takeaway_en: "God is not far away in the sky. He is right here, inside and outside, closer than your own breath.",
+                takeaway_hi: "Ishwar aasman mein nahi, yahi hain. Aapke andar, bahar aur aapki saans se bhi kareeb.",
+                tag: "Omnipresence"
+            },
+            {
+                id: 54,
+                chapter: 4,
+                verse: 18,
+                category: ['work', 'wisdom', 'action'],
+                sanskrit: "कर्मण्यकर्म यः पश्येदकर्मणि च कर्म यः।\\nस बुद्धिमान्मनुष्येषु स युक्तः कृत्स्नकर्मकृत्॥",
+                translation_en: "One who sees inaction in action, and action in inaction, is intelligent among men, and he is in the transcendental position, although engaged in all sorts of activities.",
+                translation_hi: "Jo manushya karm mein akarm dekhta hai aur jo akarm mein karm dekhta hai, wo manushyon mein buddhiman hai aur wo yogi samast karmon ko karne wala hai.",
+                takeaway_en: "The wise work without getting entangled (inaction in action), while the foolish are entangled even when doing nothing (action in inaction).",
+                takeaway_hi: "Samajhdar log kaam karte hue bhi shant rehte hain, aur moorkh log kuch na karte hue bhi pareshan rehte hain.",
+                tag: "Seer of Truth"
+            },
+            {
+                id: 55,
+                chapter: 2,
+                verse: 69,
+                category: ['perspective', 'wisdom', 'awareness'],
+                sanskrit: "या निशा सर्वभूतानां तस्यां जागर्ति संयमी।\\nयस्यां जाग्रति भूतानि सा निशा पश्यतो मुनेः॥",
+                translation_en: "What is night for all beings is the time of awakening for the self-controlled; and the time of awakening for all beings is night for the introspective sage.",
+                translation_hi: "Sampurn praniyon ke liye jo ratri ke saman hai, us nitya gyan-swarup parmanand ki prapti mein sthitpragya yogi jagta hai; aur jis nashvan sansarik sukh ki prapti mein sab prani jagte hain, parmatma ke tattva ko janne wale muni ke liye wo ratri ke saman hai.",
+                takeaway_en: "The wise are awake to things the world ignores (spirituality), and ignore things the world chases (materialism).",
+                takeaway_hi: "Gyani wo dekhte hain jo duniya nahi dekh pati, aur wo chhod dete hain jiske piche duniya bhagti hai.",
+                tag: "Different Perspective"
+            },
+            {
+                id: 56,
+                chapter: 9,
+                verse: 14,
+                category: ['devotion', 'consistency', 'love'],
+                sanskrit: "सततं कीर्तयन्तो मां यतन्तश्च दृढव्रताः।\\nनमस्यन्तश्च मां भक्त्या नित्ययुक्ता उपासते॥",
+                translation_en: "Always chanting My glories, endeavoring with great determination, bowing down before Me, these great souls perpetually worship Me with devotion.",
+                translation_hi: "Ve dridh-nishchay wale bhaktjan nirantar mere naam aur gunon ka kirtan karte hue tatha meri prapti ke liye yatna karte hue aur mujhko baar-baar pranam karte hue sada mere dhyan mein yukt hokar ananya bhakti se meri upasana karte hain.",
+                takeaway_en: "Consistency is love. True devotion is remembering the Divine constantly, not just on festivals.",
+                takeaway_hi: "Lagatar yaad karna hi asli bhakti hai. Ishwar ko bas tyoharon par nahi, har pal yaad rakho.",
+                tag: "Constant Devotion"
+            },
+            {
+                id: 57,
+                chapter: 15,
+                verse: 7,
+                category: ['soul', 'identity', 'connection'],
+                sanskrit: "ममैवांशो जीवलोके जीवभूतः सनातनः।\\nमनःषष्ठानीन्द्रियाणि प्रकृतिस्थानि कर्षति॥",
+                translation_en: "The living entities in this conditioned world are My eternal fragmental parts. Due to conditioned life, they are struggling very hard with the six senses, which include the mind.",
+                translation_hi: "Is deh mein ye sanatan jivatma mera hi ansh hai; wahi in prakriti mein sthit man aur panchon indriyon ko aakarshit karta hai.",
+                takeaway_en: "You are a part of God. You are divine. Your struggle is just the soul trying to manage the restless senses.",
+                takeaway_hi: "Tum ishwar ka ansh ho. Tum divya ho. Tumhara sangharsh bas indriyon ko sambhalne ki koshish hai.",
+                tag: "Divine Spark"
+            },
+            {
+                id: 58,
+                chapter: 15,
+                verse: 15,
+                category: ['memory', 'knowledge', 'heart'],
+                sanskrit: "सर्वस्य चाहं हृदि सन्निविष्टो\\nमत्तः स्मृतिर्ज्ञानमपोहनं च।\\nवेदैश्च सर्वैरहमेव वेद्यो\\nवेदान्तकृद्वेदविदेव चाहम्॥",
+                translation_en: "I am seated in everyone's heart, and from Me come remembrance, knowledge and forgetfulness. By all the Vedas, I am to be known. Indeed, I am the compiler of Vedanta, and I am the knower of the Vedas.",
+                translation_hi: "Main hi sab praniyon ke hriday mein antaryami-roop se sthit hun tatha mujhse hi smriti, gyan aur apohan hota hai...",
+                takeaway_en: "All knowledge and memory come from within. Connect to the source in your heart to find answers.",
+                takeaway_hi: "Saara gyan tumhare andar hai. Jawab pane ke liye apne dil ki aawaz suno.",
+                tag: "Source of Wisdom"
+            },
+            {
+                id: 59,
+                chapter: 18,
+                verse: 54,
+                category: ['joy', 'peace', 'equality'],
+                sanskrit: "ब्रह्मभूतः प्रसन्नात्मा न शोचति न काङ्क्षति।\\nसमः सर्वेषु भूतेषु मद्भक्तिं लभते पराम्॥",
+                translation_en: "One who is thus transcendentally situated at once realizes the Supreme Brahman and becomes fully joyful. He never laments or desires to have anything. He is equally disposed toward every living entity.",
+                translation_hi: "Phir wo sachidanandghan brahma mein ekibhuta hua prasannchitta wala purush na to kisi ke liye shok karta hai aur na kisi ki aakanksha hi karta hai. Wo sab bhuton mein sambhav wala hua meri para-bhakti ko prapt hota hai.",
+                takeaway_en: "A spiritual person is a happy person. They don't complain, they don't demand, they just love everyone equally.",
+                takeaway_hi: "Adhyatmik insan khush rehta hai. Wo shikayat nahi karta, bas sabse barabar pyaar karta hai.",
+                tag: "Joyful Soul"
+            },
+            {
+                id: 60,
+                chapter: 7,
+                verse: 14,
+                category: ['confusion', 'surrender', 'illusion'],
+                sanskrit: "दैवी ह्येषा गुणमयी मम माया दुरत्यया।\\nमामेव ये प्रपद्यन्ते मायामेतां तरन्ति ते॥",
+                translation_en: "This divine energy of Mine, consisting of the three modes of material nature, is difficult to overcome. But those who have surrendered unto Me can easily cross beyond it.",
+                translation_hi: "Kyunki ye alaukik arthaat ati-adbhut trigunmayi meri maya badi duster hai; parantu jo purush keval mujhko hi nirantar bhajta hain, ve is maya ko uillanghan kar jate hain arthaat sansar se tar jate hain.",
+                takeaway_en: "Life's illusions (Maya) are hard to break on your own. But with divine help, you can cross this ocean of confusion easily.",
+                takeaway_hi: "Jeevan ki maya ko todna mushkil hai. Par ishwar ki madad se tum is bhram ke sagar ko aasaani se paar kar sakte ho.",
+                tag: "Crossing Maya"
+            },
+            // --- MISSING CHAPTERS (1 & 8) ---
+            {
+                id: 66,
+                chapter: 1,
+                verse: 40,
+                category: ['confusion', 'fear', 'family'],
+                sanskrit: "कुलक्षये प्रणश्यन्ति कुलधर्माः सनातनाः।\\nधर्मे नष्टे कुलं कृत्स्नमधर्मोऽभिभवत्युत॥",
+                translation_en: "When the family is ruined, the eternal family traditions are destroyed, and due to the destruction of family traditions, the remainder of the family becomes involved in irreligion.",
+                translation_hi: "Kul ke naash se sanatan kul-dharm nasht ho jate hain; dharm ke naash hone par sampurn kul mein paap bhi bahut phail jata hai.",
+                takeaway_en: "War has consequences. The destruction of family structures leads to chaos in society. This was Arjuna's valid fear.",
+                takeaway_hi: "Yuddh ke parinaam bhayanak hote hain. Parivar tootne se samaj mein adharm phailta hai.",
+                tag: "Social Chaos"
+            },
+            {
+                id: 67,
+                chapter: 8,
+                verse: 7,
+                category: ['focus', 'death', 'devotion'],
+                sanskrit: "तस्मात्सर्वेषु कालेषु मामनुस्मर युध्य च।\\nमय्यर्पितमनोबुद्धिर्मामेवैष्यस्यसंशयम्॥",
+                translation_en: "Therefore, Arjuna, you should always think of Me in the form of Krishna and at the same time carry out your prescribed duty of fighting. With your activities dedicated to Me and your mind and intelligence fixed on Me, you will attain Me without doubt.",
+                translation_hi: "Isliye he Arjun! Tu sab samay mein nirantar mera smaran kar aur yuddh bhi kar. Is prakar mujhme arpan kiye hue man-buddhi wala hokar tu nishsandeh mujhko hi prapt hoga.",
+                takeaway_en: "Remember the Divine at all times, even while fighting your battles. This is the secret to attaining the highest state.",
+                takeaway_hi: "Har waqt ishwar ko yaad rakho, yahan tak ki apni ladai ladte hue bhi. Yahi safalta ka raaz hai.",
+                tag: "Fight and Remember"
+            },
+            // --- DAILY WISDOM (New Additions) ---
+            {
+                id: 61,
+                chapter: 18,
+                verse: 37,
+                category: ['discipline', 'happiness', 'growth'],
+                sanskrit: "यत्तदग्रे विषमिव परिणामेऽमृतोपमम्।\\nतत्सुखं सात्त्विकं प्रोक्तमात्मबुद्धिप्रसादजम्॥",
+                translation_en: "That which in the beginning may be just like poison but at the end is just like nectar and which awakens one to self-realization is said to be happiness in the mode of goodness.",
+                translation_hi: "Jo sukh aarambh mein vish ke saman aur parinaam mein amrit ke saman hai, wo aatma-buddhi ke prasad se utpann hone wala sukh sattvik kaha gaya hai.",
+                takeaway_en: "Discipline feels hard at first (like poison), but its results are sweet (like nectar). Don't give up too soon.",
+                takeaway_hi: "Anushasan shuru mein kadwa lagta hai, par uska phal meetha hota hai. Jaldi haar mat maano.",
+                tag: "Sweet Success"
+            },
+            {
+                id: 62,
+                chapter: 17,
+                verse: 16,
+                category: ['mind', 'peace', 'health'],
+                sanskrit: "मनःप्रसादः सौम्यत्वं मौनमात्मविनिग्रहः।\\nभावसंशुद्धिरित्येतत्तपो मानसमुच्यते॥",
+                translation_en: "Serenity of thought, gentleness, silence, self-control and purity of purpose—all these are declared as austerity of the mind.",
+                translation_hi: "Man ki prasannata, shant bhav, maun, man ka nigrah aur bhavon ki shuddhi—is prakar ye man ka tap kaha jata hai.",
+                takeaway_en: "Mental fitness is as important as physical fitness. Keep your mind happy, gentle, and pure.",
+                takeaway_hi: "Mansik swasthya bhi utna hi zaroori hai jitna sharirik. Apne man ko khush aur shant rakho.",
+                tag: "Mental Detox"
+            },
+            {
+                id: 63,
+                chapter: 13,
+                verse: 8,
+                category: ['character', 'humility', 'growth'],
+                sanskrit: "अमानित्वमदम्भित्वमहिंसा क्षान्तिरार्जवम्।\\nआचार्योपासनं शौचं स्थैर्यमात्मविनिग्रहः॥",
+                translation_en: "Humility; pridelessness; nonviolence; tolerance; simplicity; approaching a bona fide spiritual master; cleanliness; steadiness; self-control...",
+                translation_hi: "Shreshtha ki maan na chahna, dambh ka abhav, ahinsa, kshama, saralta, guru ki seva, pavitrata, sthirta aur man ka nigrah...",
+                takeaway_en: "True strength lies in humility and self-control, not in showing off.",
+                takeaway_hi: "Asli takat namrata aur aatma-sanyam mein hai, dikhave mein nahi.",
+                tag: "True Character"
+            },
+            {
+                id: 64,
+                chapter: 6,
+                verse: 1,
+                category: ['duty', 'work', 'spirituality'],
+                sanskrit: "अनाश्रितः कर्मफलं कार्यं कर्म करोति यः।\\nस संन्यासी च योगी च न निरग्निर्न चाक्रियः॥",
+                translation_en: "One who performs his duty without attachment to the fruit of action is the sannyasi and the yogi, not he who is without fire and without duty.",
+                translation_hi: "Jo purush karmphal ka aashray na lekar karne yogya karm karta hai, wahi sanyasi hai aur wahi yogi hai; keval agni ka tyag karne wala nahi.",
+                takeaway_en: "You don't need to leave the world to be spiritual. Just do your duty without selfishness.",
+                takeaway_hi: "Adhyatmik hone ke liye duniya chhodne ki zarurat nahi. Bas nishkam bhav se apna farz nibhao.",
+                tag: "Modern Yogi"
+            },
+            {
+                id: 65,
+                chapter: 4,
+                verse: 39,
+                category: ['faith', 'knowledge', 'peace'],
+                sanskrit: "श्रद्धावाँल्लभते ज्ञानं तत्परः संयतेन्द्रियः।\\nज्ञानं लब्ध्वा परां शान्तिमचिरेणाधिगच्छति॥",
+                translation_en: "A faithful man who is dedicated to transcendental knowledge and who subdues his senses is eligible to achieve such knowledge, and having achieved it he quickly attains the supreme spiritual peace.",
+                translation_hi: "Jitendriya, tatpar hua shraddhavan purush gyan ko prapt hota hai; gyan ko prapt hokar wo bina vilamb ke tatkal hi param shanti ko prapt ho jata hai.",
+                takeaway_en: "Faith + Focus + Self-Control = Wisdom. Wisdom leads to instant peace.",
+                takeaway_hi: "Shraddha, dhyan aur sanyam se gyan milta hai. Aur gyan se turant shanti milti hai.",
+                tag: "Formula for Peace"
+            }
+        ];
+
+        // --- JSON Verse Loading ---
+        let allVerses = [...shlokaBank]; // Start with curated verses
+        let versesLoaded = false;
+
+        // Load all verses from JSON files
+        async function loadAllVerses() {
+            if (versesLoaded) return allVerses;
+
+            try {
+                const chapterPromises = [];
+                for (let i = 1; i <= 18; i++) {
+                    chapterPromises.push(
+                        fetch(`data/chapter_${i}.json`)
+                            .then(res => res.json())
+                            .catch(err => {
+                                console.warn(`Failed to load chapter ${i}:`, err);
+                                return [];
+                            })
+                    );
+                }
+
+                const chapters = await Promise.all(chapterPromises);
+                const jsonVerses = [];
+
+                // Transform JSON verses to match shlokaBank format
+                chapters.forEach((chapterVerses, chapterIndex) => {
+                    if (Array.isArray(chapterVerses)) {
+                        chapterVerses.forEach(verse => {
+                            // Check if this verse is already in curated shlokaBank
+                            const existsInCurated = shlokaBank.some(
+                                s => s.chapter === verse.chapter && s.verse === verse.verse
+                            );
+
+                            // Only add if not already in curated list
+                            if (!existsInCurated) {
+                                jsonVerses.push({
+                                    id: `json_${verse.id}`,
+                                    chapter: verse.chapter,
+                                    verse: verse.verse,
+                                    category: ['all'], // All JSON verses get 'all' category
+                                    sanskrit: verse.sanskrit || '',
+                                    translation_en: verse.translation_en || '',
+                                    translation_hi: verse.translation_hi || '',
+                                    takeaway_en: '', // JSON doesn't have takeaways
+                                    takeaway_hi: '',
+                                    tag: `Chapter ${verse.chapter}:${verse.verse}`
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // Merge: curated verses first, then JSON verses
+                allVerses = [...shlokaBank, ...jsonVerses];
+                versesLoaded = true;
+
+                console.log(`Loaded ${allVerses.length} total verses (${shlokaBank.length} curated + ${jsonVerses.length} from JSON)`);
+                return allVerses;
+            } catch (error) {
+                console.error('Error loading verses:', error);
+                allVerses = [...shlokaBank]; // Fallback to curated only
+                return allVerses;
+            }
+        }
+
+        // Get verses by chapter
+        function getVersesByChapter(chapterNum) {
+            return allVerses.filter(v => v.chapter === chapterNum);
+        }
+
+        // Get actual verse count per chapter from loaded data
+        function getChapterVerseCounts() {
+            const counts = Array(18).fill(0);
+            allVerses.forEach(verse => {
+                if (verse.chapter >= 1 && verse.chapter <= 18) {
+                    counts[verse.chapter - 1]++;
+                }
+            });
+            return counts;
+        }
+
+        const uiTranslations = {
+            en: {
+                title: "Find Clarity in Chaos",
+                subtitle: "Ancient wisdom for modern problems. Select how you are feeling to receive guidance.",
+                anger: "Anger",
+                confusion: "Confusion",
+                sadness: "Grief/Sadness",
+                fear: "Fear/Anxiety",
+                lazy: "Laziness",
+                surprise: "Surprise Me",
+                viewAll: "View All Wisdom",
+                back: "Back to Home",
+                langBtn: "HINDI",
+                footer: "Made for peace and clarity.",
+                cardTitle: "Chapter",
+                takeawayLabel: "Life Lesson:",
+                searchPlaceholder: "Search keywords (e.g., peace, duty)...",
+                resultsFor: "Guidance for",
+                resultsFound: "verses found",
+                chapters: "Chapters",
+                exploreChapters: "Explore Chapters",
+                chaptersTitle: "Chapters of the Gita",
+                chaptersSubtitle: "Explore the journey of Arjuna",
+                viewVerses: "View Verses",
+                loading: "Loading verses...",
+                commentPlaceholder: "Write your personal reflection...",
+                saveComment: "Save Note",
+                favorites: "My Favorites",
+                noFavorites: "You haven't added any favorites yet."
+            },
+            hi: {
+                title: "अशांति में शांति खोजें",
+                subtitle: "आधुनिक समस्याओं के लिए प्राचीन ज्ञान। भगवत गीता से मार्गदर्शन प्राप्त करने के लिए अपनी मनोदशा चुनें।",
+                anger: "क्रोध",
+                confusion: "दुविधा",
+                sadness: "दुःख/शोक",
+                fear: "डर/चिंता",
+                lazy: "आलस्य",
+                surprise: "मुझे हैरान करें",
+                viewAll: "सभी ज्ञान देखें",
+                back: "मुख्य पृष्ठ",
+                langBtn: "ENGLISH",
+                footer: "शांति और स्पष्टता के लिए बनाया गया।",
+                cardTitle: "अध्याय",
+                takeawayLabel: "जीवन की सीख:",
+                searchPlaceholder: "कीवर्ड खोजें (जैसे: शांति, कर्म)...",
+                resultsFor: "मार्गदर्शन:",
+                resultsFound: "श्लोक मिले",
+                chapters: "अध्याय",
+                exploreChapters: "अध्याय देखें",
+                chaptersTitle: "गीता के अध्याय",
+                chaptersSubtitle: "अर्जुन की यात्रा को जानें",
+                viewVerses: "श्लोक देखें",
+                loading: "श्लोक लोड हो रहे हैं...",
+                commentPlaceholder: "अपने विचार लिखें...",
+                saveComment: "नोट सहेजें",
+                favorites: "मेरे पसंदीदा",
+                noFavorites: "आपने अभी तक कोई पसंदीदा नहीं जोड़ा है।"
+            }
+        };
+
+        const chapterData = [
+            { id: 1, title_en: "Arjuna Vishada Yoga", title_hi: "अर्जुनविषादयोग", desc_en: "Arjuna's dilemma and despair on the battlefield.", desc_hi: "कुरुक्षेत्र के मैदान में अर्जुन का विषाद और मोह।" },
+            { id: 2, title_en: "Sankhya Yoga", title_hi: "सांख्ययोग", desc_en: "The Yoga of Knowledge. Krishna begins his teaching.", desc_hi: "ज्ञान का योग। श्री कृष्ण का उपदेश आरंभ।" },
+            { id: 3, title_en: "Karma Yoga", title_hi: "कर्मयोग", desc_en: "The Yoga of Action. Performing duty without attachment.", desc_hi: "कर्म का योग। फल की इच्छा के बिना कर्म करना।" },
+            { id: 4, title_en: "Jnana Karma Sanyasa Yoga", title_hi: "ज्ञानकर्मसंन्यासयोग", desc_en: "Approaching the ultimate truth through knowledge.", desc_hi: "ज्ञान और कर्म के संन्यास का योग।" },
+            { id: 5, title_en: "Karma Sanyasa Yoga", title_hi: "कर्मसंन्यासयोग", desc_en: "Renunciation of action vs. right action.", desc_hi: "कर्मों के संन्यास का योग।" },
+            { id: 6, title_en: "Dhyana Yoga", title_hi: "ध्यानयोग", desc_en: "The Yoga of Meditation and controlling the mind.", desc_hi: "ध्यान और मन को वश में करने का योग." },
+            { id: 7, title_en: "Jnana Vijnana Yoga", title_hi: "ज्ञानविज्ञानयोग", desc_en: "Knowledge of the Absolute.", desc_hi: "ज्ञान और विज्ञान का योग।" },
+            { id: 8, title_en: "Akshara Brahma Yoga", title_hi: "अक्षरब्रह्मयोग", desc_en: "Attaining the Supreme Eternal.", desc_hi: "अक्षर ब्रह्म की प्राप्ति का योग।" },
+            { id: 9, title_en: "Raja Vidya Raja Guhya Yoga", title_hi: "राजविद्याराजगुह्ययोग", desc_en: "The most confidential knowledge.", desc_hi: "राजविद्या और राजगुह्य योग।" },
+            { id: 10, title_en: "Vibhuti Yoga", title_hi: "विभूतियोग", desc_en: "The opulence of the Absolute.", desc_hi: "भगवान की विभूतियों का योग।" },
+            { id: 11, title_en: "Vishwarupa Darshana Yoga", title_hi: "विश्वरूपदर्शनयोग", desc_en: "Vision of the Universal Form.", desc_hi: "विश्वरूप दर्शन का योग।" },
+            { id: 12, title_en: "Bhakti Yoga", title_hi: "भक्तियोग", desc_en: "The Yoga of Devotion.", desc_hi: "भक्ति का योग।" },
+            { id: 13, title_en: "Kshetra Kshetrajna Vibhaga Yoga", title_hi: "क्षेत्रक्षेत्रज्ञविभागयोग", desc_en: "Nature, the Enjoyer, and Consciousness.", desc_hi: "क्षेत्र और क्षेत्रज्ञ के विभाग का योग।" },
+            { id: 14, title_en: "Gunatraya Vibhaga Yoga", title_hi: "गुणत्रयविभागयोग", desc_en: "The three modes of material nature.", desc_hi: "तीन गुणों के विभाग का योग।" },
+            { id: 15, title_en: "Purushottama Yoga", title_hi: "पुरुषोत्तमयोग", desc_en: "The Yoga of the Supreme Person.", desc_hi: "पुरुषोत्तम योग।" },
+            { id: 16, title_en: "Daivasura Sampad Vibhaga Yoga", title_hi: "दैवासुरसम्पद्विभागयोग", desc_en: "The Divine and Demoniac Natures.", desc_hi: "दैवी और आसुरी सम्पदा का योग।" },
+            { id: 17, title_en: "Shraddhatraya Vibhaga Yoga", title_hi: "श्रद्धात्रयविभागयोग", desc_en: "The divisions of faith.", desc_hi: "श्रद्धा के तीन विभाग।" },
+            { id: 18, title_en: "Moksha Sanyasa Yoga", title_hi: "मोक्षसंन्यासयोग", desc_en: "Conclusion: The perfection of renunciation.", desc_hi: "मोक्ष और संन्यास का योग।" }
+        ];
+
+        // --- State ---
+        let currentLang = 'en';
+        let currentFilter = 'all';
+        let currentAnimation = 'calm';
+
+        // --- User Data (LocalStorage) ---
+        let userFavorites = JSON.parse(localStorage.getItem('gita_favorites')) || [];
+        let userComments = JSON.parse(localStorage.getItem('gita_comments')) || {};
+
+        function saveUserData() {
+            localStorage.setItem('gita_favorites', JSON.stringify(userFavorites));
+            localStorage.setItem('gita_comments', JSON.stringify(userComments));
+        }
+
+        function toggleFavorite(id) {
+            if (userFavorites.includes(id)) {
+                userFavorites = userFavorites.filter(fav => fav !== id);
+            } else {
+                userFavorites.push(id);
+            }
+            saveUserData();
+
+            // Update UI if button exists
+            const btn = document.getElementById(`fav-btn-${id}`);
+            if (btn) {
+                const isFav = userFavorites.includes(id);
+                btn.innerHTML = `<i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-red-500 text-red-500' : 'text-gray-400'}"></i>`;
+                lucide.createIcons();
+            }
+        }
+
+        function toggleComment(id) {
+            const section = document.getElementById(`comment-section-${id}`);
+            section.classList.toggle('hidden');
+        }
+
+        function saveComment(id) {
+            const input = document.getElementById(`comment-input-${id}`);
+            const val = input.value.trim();
+            if (val) {
+                userComments[id] = val;
+                saveUserData();
+                showToast('Reflection saved!');
+            } else {
+                delete userComments[id]; // Remove if empty
+                saveUserData();
+                showToast('Reflection cleared!');
+            }
+            document.getElementById(`comment-section-${id}`).classList.add('hidden'); // Hide after saving
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            lucide.createIcons();
+            applyLanguage();
+            changeAnimation('calm');
+            initParticles();
+            initParallaxOm();
+
+            // Load all verses from JSON files
+            await loadAllVerses();
+
+            initDailyShloka();
+        });
+
+        // --- Daily Shloka ---
+        function initDailyShloka() {
+            const container = document.getElementById('dailyWisdomContainer');
+            if (!container) return;
+
+            // Seed based on date string (e.g., "Fri Nov 30 2025")
+            const today = new Date().toDateString();
+            let hash = 0;
+            for (let i = 0; i < today.length; i++) {
+                hash = today.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const index = Math.abs(hash) % allVerses.length;
+            const shloka = allVerses[index];
+
+            // Render
+            const t = uiTranslations[currentLang];
+            const translation = currentLang === 'en' ? shloka.translation_en : shloka.translation_hi;
+            const takeaway = currentLang === 'en' ? shloka.takeaway_en : shloka.takeaway_hi;
+
+            document.getElementById('dailySanskrit').textContent = shloka.sanskrit.split('\\n')[0]; // Just first line for brevity
+            document.getElementById('dailyTranslation').textContent = `"${translation}"`;
+            document.getElementById('dailyTakeaway').textContent = takeaway;
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString(currentLang === 'en' ? 'en-US' : 'hi-IN', { weekday: 'long', month: 'long', day: 'numeric' });
+
+            container.classList.remove('hidden');
+        }
+
+        // --- Animation handling ---
+        function changeAnimation(mode) {
+            currentAnimation = mode;
+            document.body.setAttribute('data-animation', mode);
+            const select = document.getElementById('animationSelect');
+            if (select && select.value !== mode) {
+                select.value = mode;
+            }
+        }
+
+        function initParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+
+            const particleCount = 26;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+
+                const left = Math.random() * 100;
+                const bottom = Math.random() * 100;
+                const delay = Math.random() * 22;
+                const duration = 18 + Math.random() * 18;
+
+                p.style.left = left + '%';
+                p.style.bottom = (bottom - 10) + '%';
+                p.style.animationDelay = delay + 's';
+                p.style.animationDuration = duration + 's';
+
+                container.appendChild(p);
+            }
+        }
+
+        function initParallaxOm() {
+            const om = document.querySelector('.om-bg');
+            if (!om) return;
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY || window.pageYOffset;
+                const offset = scrollY * 0.04; // subtle
+                om.style.transform = `translate(-50%, calc(-50% + ${offset}px))`;
+            });
+        }
+
+        // --- Language toggle ---
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'hi' : 'en';
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const t = uiTranslations[currentLang];
+
+            // Text Content Updates
+            document.getElementById('heroTitle').textContent = t.title;
+            document.getElementById('heroSubtitle').textContent = t.subtitle;
+            document.getElementById('viewAllBtn').innerHTML = `<span>${t.viewAll}</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>`;
+            document.getElementById('backBtn').innerHTML = `<i data-lucide="arrow-left" class="w-4 h-4"></i> <span>${t.back}</span>`;
+            document.getElementById('langText').textContent = t.langBtn;
+            document.getElementById('footerText').textContent = t.footer;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+
+            // New Buttons
+            const exploreBtn = document.getElementById('exploreChaptersBtn');
+            if (exploreBtn) exploreBtn.innerHTML = `<i data-lucide="book-open" class="w-4 h-4"></i> <span>${t.exploreChapters}</span>`;
+
+            const chaptersTitle = document.getElementById('chaptersTitle');
+            if (chaptersTitle) chaptersTitle.textContent = t.chaptersTitle;
+            const chaptersSubtitle = document.getElementById('chaptersSubtitle');
+            if (chaptersSubtitle) chaptersSubtitle.textContent = t.chaptersSubtitle;
+            const backHomeBtn = document.getElementById('backHomeBtn');
+            if (backHomeBtn) backHomeBtn.textContent = t.back;
+
+            // Update Mood Buttons
+            document.querySelectorAll('.mood-text').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (t[key]) el.textContent = t[key];
+            });
+
+            lucide.createIcons();
+
+            // Re-render cards if visible
+            const resultsSection = document.getElementById('resultsSection');
+            if (!resultsSection.classList.contains('hidden')) {
+                const searchInput = document.getElementById('searchInput');
+
+                if (searchInput && searchInput.value.trim() !== "") {
+                    const query = searchInput.value.toLowerCase().trim();
+                    performSearch(query);
+                } else {
+                    if (currentFilter !== 'all' && currentFilter !== 'surprise' && currentFilter !== 'search' && currentFilter !== 'chapter' && currentFilter !== 'favorites') {
+                        const heading = document.getElementById('resultTitle');
+                        const categoryName = t[currentFilter];
+                        const prefix = currentLang === 'en' ? 'Guidance for ' : 'मार्गदर्शन: ';
+                        heading.textContent = prefix + categoryName;
+                    } else if (currentFilter === 'all') {
+                        const heading = document.getElementById('resultTitle');
+                        heading.textContent = currentLang === 'en' ? 'All Wisdom' : 'सम्पूर्ण ज्ञान';
+                    } else if (currentFilter === 'favorites') {
+                        document.getElementById('resultTitle').textContent = t.favorites;
+                        showFavorites(); // Re-render favorites
+                    }
+                    // For chapter view, title is set in viewChapter, no need to re-render all cards here.
+                    // For search, title is set in performSearch.
+                    if (currentFilter !== 'chapter' && currentFilter !== 'favorites') {
+                        renderCards(currentFilter === 'search' ? 'all' : currentFilter);
+                    }
+                }
+            }
+
+            // Re-render chapters if visible
+            const chaptersSection = document.getElementById('chaptersSection');
+            if (!chaptersSection.classList.contains('hidden')) {
+                renderChapters();
+            }
+        }
+
+        // --- View switching ---
+        function showHome() {
+            document.getElementById('heroSection').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('chaptersSection').classList.add('hidden');
+            document.getElementById('searchInput').value = ''; // clear search
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showFavorites() {
+            showHome(); // Reset state
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+
+            currentFilter = 'favorites';
+            const t = uiTranslations[currentLang];
+            document.getElementById('resultTitle').textContent = t.favorites;
+
+            const favShlokas = allVerses.filter(s => userFavorites.includes(s.id));
+
+            if (favShlokas.length === 0) {
+                document.getElementById('cardsContainer').innerHTML = `
+                    <div class="col-span-full text-center py-10 text-gray-500">
+                        <div class="text-4xl mb-4">❤️</div>
+                        <p class="text-lg">${t.noFavorites}</p>
+                    </div>`;
+                document.getElementById('resultCount').textContent = `0 ${t.resultsFound}`;
+            } else {
+                renderCustomData(favShlokas);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function focusSearch() {
+            document.getElementById('searchInput').focus();
+            document.getElementById('searchInput').scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        // --- Search ---
+        function handleSearch(e) {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length > 0) {
+                performSearch(query);
+            } else {
+                showHome();
+            }
+        }
+
+        function performSearch(query) {
+            currentFilter = 'search';
+
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('chaptersSection').classList.add('hidden'); // Ensure chapters are hidden
+
+            const t = uiTranslations[currentLang];
+            document.getElementById('resultTitle').textContent = `Search: "${query}"`;
+
+            const filtered = allVerses.filter(item => {
+                const content = (item.translation_en + item.translation_hi + item.takeaway_en + item.takeaway_hi + item.tag + item.sanskrit).toLowerCase();
+                return content.includes(query);
+            });
+
+            renderCustomData(filtered);
+        }
+
+        // --- Surprise ---
+        function surpriseMe() {
+            currentFilter = 'surprise';
+            const randomShloka = allVerses[Math.floor(Math.random() * allVerses.length)];
+
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('chaptersSection').classList.add('hidden'); // Ensure chapters are hidden
+
+            const t = uiTranslations[currentLang];
+            document.getElementById('resultTitle').textContent = currentLang === 'en' ? "Your Guidance for Today" : "आज का मार्गदर्शन";
+
+            renderCustomData([randomShloka]);
+        }
+
+        // --- Filter by mood/category ---
+        function filterShlokas(category) {
+            currentFilter = category;
+
+            const t = uiTranslations[currentLang];
+            const categoryName = category === 'all' ? (currentLang === 'en' ? 'All Wisdom' : 'सम्पूर्ण ज्ञान') : t[category];
+            const prefix = currentLang === 'en' ? 'Guidance for ' : 'मार्गदर्शन: ';
+            document.getElementById('resultTitle').textContent = category === 'all' ? categoryName : prefix + categoryName;
+
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('chaptersSection').classList.add('hidden'); // Ensure chapters are hidden
+
+            renderCards(category);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Chapters View ---
+        function showChapters() {
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('chaptersSection').classList.remove('hidden');
+
+            renderChapters();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderChapters() {
+            const container = document.getElementById('chaptersGrid');
+            container.innerHTML = '';
+            const t = uiTranslations[currentLang];
+
+            // Get actual verse counts from loaded data
+            const verseCounts = versesLoaded ? getChapterVerseCounts() : [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78];
+
+            chapterData.forEach((ch, index) => {
+                const title = currentLang === 'en' ? ch.title_en : ch.title_hi;
+                const desc = currentLang === 'en' ? ch.desc_en : ch.desc_hi;
+
+                // Use actual verse count from our data
+                const count = verseCounts[index];
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel rounded-xl p-6 border border-white/50 hover:border-orange-300 transition-all hover:shadow-lg flex flex-col group cursor-pointer';
+                card.onclick = () => viewChapter(ch.id);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded uppercase tracking-wider">Chapter ${ch.id}</span>
+                        <span class="text-xs text-gray-400 font-medium">${count} ${t.resultsFound}</span>
+                    </div>
+                    <h3 class="text-lg font-serif font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors ${currentLang === 'hi' ? 'font-hindi' : ''}">${title}</h3>
+                    <p class="text-sm text-gray-600 mb-4 flex-grow ${currentLang === 'hi' ? 'font-hindi' : ''}">${desc}</p>
+                    <button class="mt-auto w-full py-2 rounded-lg bg-white border border-gray-200 text-sm font-medium text-gray-600 group-hover:bg-orange-600 group-hover:text-white group-hover:border-orange-600 transition-all">
+                        ${t.viewVerses}
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        async function viewChapter(chapterId) {
+            currentFilter = 'chapter';
+
+            document.getElementById('chaptersSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
+
+            const t = uiTranslations[currentLang];
+            const chInfo = chapterData.find(c => c.id === chapterId);
+            const title = currentLang === 'en' ? chInfo.title_en : chInfo.title_hi;
+
+            document.getElementById('resultTitle').textContent = `${t.cardTitle} ${chapterId}: ${title}`;
+
+            // Use already loaded verses from allVerses
+            const verses = getVersesByChapter(chapterId);
+            renderChapterVerses(verses);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderChapterVerses(verses) {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            const t = uiTranslations[currentLang];
+
+            document.getElementById('resultCount').textContent = `${verses.length} ${t.resultsFound}`;
+
+            if (verses.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-4xl mb-4">🍂</div>
+                        <p class="text-gray-500 text-lg">No verses found for this chapter.</p>
+                    </div>`;
+                return;
+            }
+
+            verses.forEach((verse, index) => {
+                const isFav = userFavorites.includes(verse.id);
+                const savedComment = userComments[verse.id] || '';
+
+                let translation = currentLang === 'en' ? verse.translation_en : verse.translation_hi;
+
+                const card = document.createElement('div');
+                card.className = 'glass-panel rounded-xl p-6 border border-white/50 hover:border-orange-200 transition-all hover:shadow-lg animate-fade-in';
+                card.style.animationDelay = `${index * 50}ms`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded uppercase tracking-wider">Verse ${verse.id}</span>
+                        <div class="flex gap-2">
+                            <button onclick="toggleFavorite('${verse.id}')" id="fav-btn-${verse.id}" class="p-2 rounded-full hover:bg-red-50 transition-colors" title="Add to Favorites">
+                                <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-red-500 text-red-500' : 'text-gray-400'}"></i>
+                            </button>
+                            <button onclick="toggleComment('${verse.id}')" class="p-2 rounded-full hover:bg-blue-50 transition-colors" title="Add Note">
+                                <i data-lucide="message-circle" class="w-5 h-5 text-gray-400 hover:text-blue-500"></i>
+                            </button>
+                            <button onclick="copyToClipboard('${verse.sanskrit.replace(/\n/g, ' ').replace(/'/g, "\\'")}')" class="p-2 rounded-full hover:bg-orange-50 transition-colors" title="Copy Sanskrit">
+                                <i data-lucide="copy" class="w-5 h-5 text-gray-400 hover:text-orange-500"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6 text-center">
+                        <p class="text-lg md:text-xl font-bold text-gray-800 leading-relaxed font-hindi mb-2">${verse.sanskrit.replace(/\n/g, '<br>')}</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Explanation</h4>
+                            <p class="text-gray-600 leading-relaxed text-sm max-h-60 overflow-y-auto custom-scrollbar pr-2">${translation}</p>
+                        </div>
+                    </div>
+
+                    <!-- Comment Section -->
+                    <div id="comment-section-${verse.id}" class="mt-4 pt-4 border-t border-gray-100 ${savedComment ? '' : 'hidden'}">
+                        <textarea id="comment-input-${verse.id}" class="w-full p-3 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-200 focus:border-orange-400 outline-none bg-white/50" rows="3" placeholder="${t.commentPlaceholder}">${savedComment}</textarea>
+                        <button onclick="saveComment('${verse.id}')" class="mt-2 px-4 py-1.5 bg-orange-600 text-white text-xs font-bold rounded-lg hover:bg-orange-700 transition-colors">
+                            ${t.saveComment}
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        function renderCards(filter) {
+            const filteredData = (filter === 'all' || filter === 'search')
+                ? allVerses
+                : allVerses.filter(item => item.category.includes(filter));
+
+            renderCustomData(filteredData);
+        }
+
+        // --- Card Renderer ---
+        function renderCustomData(data) {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            const t = uiTranslations[currentLang];
+            document.getElementById('resultCount').textContent = `${data.length} ${t.resultsFound}`;
+
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <div class="text-4xl mb-4">🍂</div>
+                        <p class="text-gray-500 text-lg">No shlokas found matching your search.</p>
+                        <button onclick="showHome()" class="mt-4 text-orange-600 font-medium hover:underline">Return Home</button>
+                    </div>`;
+                return;
+            }
+
+            data.forEach((item, index) => {
+                const translation = currentLang === 'en' ? item.translation_en : item.translation_hi;
+                const takeaway = currentLang === 'en' ? item.takeaway_en : item.takeaway_hi;
+                const fontClass = currentLang === 'en' ? '' : 'font-hindi';
+                const delay = index * 50;
+
+                const card = document.createElement('div');
+                card.className = 'shloka-card bg-white/95 rounded-2xl p-6 md:p-8 border border-orange-100 flex flex-col h-full animate-fade-in relative overflow-hidden';
+                card.style.animationDelay = `${delay}ms`;
+
+                const cardBg = `<div class="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-bl-full -mr-4 -mt-4 z-0 pointer-events-none"></div>`;
+
+                card.innerHTML = `
+                    ${cardBg}
+                    <div class="relative z-10 flex justify-between items-start mb-4">
+                        <span class="inline-block px-3 py-1 rounded-full bg-orange-50 text-orange-700 text-xs font-bold tracking-wider uppercase border border-orange-100">
+                            ${t.cardTitle} ${item.chapter}.${item.verse}
+                        </span>
+                        <span class="text-gray-400 text-xs font-medium bg-gray-50 px-2 py-1 rounded">${item.tag}</span>
+                    </div>
+                    
+                    <div class="relative z-10 mb-6 text-center py-4 border-b border-orange-50/50">
+                        <p class="font-hindi text-xl md:text-2xl font-medium text-gray-800 leading-loose whitespace-pre-line text-orange-900 drop-shadow-sm">
+                            ${item.sanskrit.replace(/\\n/g, '\\n')}
+                        </p>
+                    </div>
+
+                    <div class="relative z-10 flex-grow">
+                        <p class="text-gray-600 mb-6 italic pl-2 ${fontClass} leading-relaxed">
+                            "${translation}"
+                        </p>
+                        
+                        <div class="bg-gradient-to-br from-stone-50 to-orange-50/40 rounded-xl p-5 mt-auto border border-stone-100">
+                            <h4 class="text-xs uppercase font-bold text-orange-600 mb-2 flex items-center gap-2 tracking-widest">
+                                <i data-lucide="lightbulb" class="w-4 h-4"></i> ${t.takeawayLabel}
+                            </h4>
+                            <p class="text-gray-800 text-sm md:text-base font-medium ${fontClass}">${takeaway}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative z-10 mt-6 flex justify-between items-center border-t border-gray-100 pt-4">
+                        <button onclick="shareShloka('${item.chapter}', '${item.verse}', '${takeaway.replace(/'/g, "\\'")}')" class="text-gray-400 hover:text-orange-600 text-sm flex items-center gap-1.5 transition-colors p-2 rounded-lg hover:bg-orange-50">
+                            <i data-lucide="share-2" class="w-4 h-4"></i> <span class="hidden sm:inline">Share</span>
+                        </button>
+                        <button onclick="copyToClipboard('${item.sanskrit.replace(/\\n/g, ' ').replace(/'/g, "\\'")}')" class="text-gray-400 hover:text-orange-600 text-sm flex items-center gap-1.5 transition-colors p-2 rounded-lg hover:bg-orange-50" title="Copy Sanskrit">
+                            <i data-lucide="copy" class="w-4 h-4"></i> <span class="hidden sm:inline">Copy</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // --- Copy / Share / Toast ---
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Shloka copied / श्लोक कॉपी किया गया');
+            } catch (err) {
+                console.error('Failed to copy', err);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function shareShloka(ch, verse, takeaway) {
+            const text = `Gita Guidance (Ch ${ch}.${verse}):\\n${takeaway}\\n\\nFind more peace at GitaGuidance.`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Gita Guidance',
+                    text: text,
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                copyToClipboard(text);
+            }
+        }
+
+        function showToast(message) {
+            const existing = document.getElementById('gg-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'gg-toast';
+            toast.className = 'fixed bottom-5 right-5 bg-gray-900/95 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50 animate-fade-in';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(6px)';
+                setTimeout(() => toast.remove(), 500);
+            }, 2000);
+        }
+    </script>
+
+    <!-- React Animated Background Component -->
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function AnimatedBackground() {
+            const [particles, setParticles] = useState([]);
+            const [oms, setOms] = useState([]);
+            const [orbs, setOrbs] = useState([]);
+
+            useEffect(() => {
+                // Generate floating particles
+                const particleCount = 30;
+                const newParticles = Array.from({ length: particleCount }, (_, i) => ({
+                    id: i,
+                    left: Math.random() * 100,
+                    size: Math.random() * 6 + 3,
+                    delay: Math.random() * 15,
+                    duration: Math.random() * 10 + 10,
+                    drift: (Math.random() - 0.5) * 200,
+                    color: `rgba(234, 88, 12, ${Math.random() * 0.4 + 0.2})`
+                }));
+                setParticles(newParticles);
+
+                // Generate floating Om symbols
+                const omCount = 8;
+                const newOms = Array.from({ length: omCount }, (_, i) => ({
+                    id: i,
+                    left: Math.random() * 90 + 5,
+                    top: Math.random() * 80 + 10,
+                    delay: Math.random() * 20,
+                    duration: Math.random() * 10 + 15
+                }));
+                setOms(newOms);
+
+                // Generate gradient orbs
+                const orbCount = 3;
+                const newOrbs = Array.from({ length: orbCount }, (_, i) => ({
+                    id: i,
+                    left: Math.random() * 80 + 10,
+                    top: Math.random() * 80 + 10,
+                    size: Math.random() * 200 + 150,
+                    delay: i * 2,
+                    gradient: i === 0 ? 'radial-gradient(circle, rgba(234, 88, 12, 0.3), transparent)' :
+                        i === 1 ? 'radial-gradient(circle, rgba(251, 146, 60, 0.2), transparent)' :
+                            'radial-gradient(circle, rgba(249, 115, 22, 0.25), transparent)'
+                }));
+                setOrbs(newOrbs);
+            }, []);
+
+            return React.createElement('div', {
+                style: {
+                    position: 'fixed',
+                    inset: 0,
+                    overflow: 'hidden',
+                    pointerEvents: 'none',
+                    zIndex: 0
+                }
+            },
+                // Giant Central Om
+                React.createElement('div', {
+                    className: 'giant-om',
+                    style: {
+                        willChange: 'transform'
+                    }
+                }, 'ॐ'),
+                // Gradient Orbs
+                orbs.map(orb =>
+                    React.createElement('div', {
+                        key: `orb-${orb.id}`,
+                        className: 'gradient-orb',
+                        style: {
+                            left: `${orb.left}%`,
+                            top: `${orb.top}%`,
+                            width: `${orb.size}px`,
+                            height: `${orb.size}px`,
+                            background: orb.gradient,
+                            animationDelay: `${orb.delay}s`
+                        }
+                    })
+                ),
+                // Floating Particles
+                particles.map(particle =>
+                    React.createElement('div', {
+                        key: `particle-${particle.id}`,
+                        className: 'floating-particle',
+                        style: {
+                            left: `${particle.left}%`,
+                            width: `${particle.size}px`,
+                            height: `${particle.size}px`,
+                            background: particle.color,
+                            animationDelay: `${particle.delay}s`,
+                            animationDuration: `${particle.duration}s`,
+                            '--drift': `${particle.drift}px`
+                        }
+                    })
+                ),
+                // Floating Om Symbols
+                oms.map(om =>
+                    React.createElement('div', {
+                        key: `om-${om.id}`,
+                        className: 'floating-om font-hindi',
+                        style: {
+                            left: `${om.left}%`,
+                            top: `${om.top}%`,
+                            animationDelay: `${om.delay}s`,
+                            animationDuration: `${om.duration}s`
+                        }
+                    }, 'ॐ')
+                )
+            );
+        }
+
+        // Mount React component
+        const root = ReactDOM.createRoot(document.getElementById('react-background'));
+        root.render(React.createElement(AnimatedBackground));
+    </script>
+</body>
+
+</html>
