@@ -538,6 +538,8 @@
             background: #94a3b8;
         }
     </style>
+    <!-- Load Verse Data -->
+    <script src="data/verses.js"></script>
 </head>
 
 <body class="text-gray-800 min-h-screen flex flex-col hero-bg" data-animation="calm">
@@ -1620,51 +1622,40 @@
         let allVerses = [...shlokaBank]; // Start with curated verses
         let versesLoaded = false;
 
-        // Load all verses from JSON files
+        // Load all verses from global data (verses.js)
         async function loadAllVerses() {
             if (versesLoaded) return allVerses;
 
             try {
-                const chapterPromises = [];
-                for (let i = 1; i <= 18; i++) {
-                    chapterPromises.push(
-                        fetch(`data/chapter_${i}.json`)
-                            .then(res => res.json())
-                            .catch(err => {
-                                console.warn(`Failed to load chapter ${i}:`, err);
-                                return [];
-                            })
-                    );
-                }
-
-                const chapters = await Promise.all(chapterPromises);
+                // Use data loaded from verses.js
+                const jsonVersesRaw = window.gitaVerses || [];
                 const jsonVerses = [];
 
-                // Transform JSON verses to match shlokaBank format
-                chapters.forEach((chapterVerses, chapterIndex) => {
-                    if (Array.isArray(chapterVerses)) {
-                        chapterVerses.forEach(verse => {
-                            // Check if this verse is already in curated shlokaBank
-                            // Handle potential type mismatch: shlokaBank uses numbers, JSON might use strings
-                            const existsInCurated = shlokaBank.some(
-                                s => Number(s.chapter) === Number(verse.chapter) && Number(s.verse) === Number(verse.verse)
-                            );
+                if (jsonVersesRaw.length === 0) {
+                    console.warn('No verses found in window.gitaVerses');
+                }
 
-                            // Only add if not already in curated list
-                            if (!existsInCurated) {
-                                jsonVerses.push({
-                                    id: `json_${verse.id}`,
-                                    chapter: Number(verse.chapter),
-                                    verse: Number(verse.verse),
-                                    category: ['all'], // All JSON verses get 'all' category
-                                    sanskrit: verse.sanskrit || '',
-                                    translation_en: verse.translation_en || '',
-                                    translation_hi: verse.translation_hi || '',
-                                    takeaway_en: '', // JSON doesn't have takeaways
-                                    takeaway_hi: '',
-                                    tag: `Chapter ${verse.chapter}:${verse.verse}`
-                                });
-                            }
+                // Transform JSON verses to match shlokaBank format
+                jsonVersesRaw.forEach(verse => {
+                    // Check if this verse is already in curated shlokaBank
+                    // Handle potential type mismatch: shlokaBank uses numbers, JSON might use strings
+                    const existsInCurated = shlokaBank.some(
+                        s => Number(s.chapter) === Number(verse.chapter) && Number(s.verse) === Number(verse.verse)
+                    );
+
+                    // Only add if not already in curated list
+                    if (!existsInCurated) {
+                        jsonVerses.push({
+                            id: `json_${verse.id}`,
+                            chapter: Number(verse.chapter),
+                            verse: Number(verse.verse),
+                            category: ['all'], // All JSON verses get 'all' category
+                            sanskrit: verse.sanskrit || '',
+                            translation_en: verse.translation_en || '',
+                            translation_hi: verse.translation_hi || '',
+                            takeaway_en: '', // JSON doesn't have takeaways
+                            takeaway_hi: '',
+                            tag: `Chapter ${verse.chapter}:${verse.verse}`
                         });
                     }
                 });
